@@ -33,7 +33,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070a10] text-slate-100 font-sans selection:bg-indigo-600 selection:text-white flex flex-col">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-accent selection:text-accent-foreground flex flex-col">
       {/* Sleek Top Navigation Bar */}
       <Navbar
         currentPath={currentPath}

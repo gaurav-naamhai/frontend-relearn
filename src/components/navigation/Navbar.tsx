@@ -22,16 +22,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="h-14 border-b border-slate-800 bg-[#090d16]/95 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 select-none">
+    <header className="h-14 border-b border-border bg-card/95 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 select-none">
       {/* Brand */}
       <button
         onClick={() => onNavigate("/dashboard")}
         className="flex items-center gap-2.5 text-left group"
       >
-        <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-extrabold text-xs font-mono shadow-sm group-hover:bg-indigo-500 transition-colors">
+        <div className="w-7 h-7 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-extrabold text-xs font-mono shadow-sm group-hover:opacity-90 transition-opacity">
           RE
         </div>
-        <span className="font-extrabold font-mono text-slate-100 text-sm tracking-wider">
+        <span className="font-extrabold font-mono text-foreground text-sm tracking-wider">
           RE:LEARN
         </span>
       </button>
@@ -50,8 +50,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onNavigate(item.path)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
                 isActive
-                  ? "bg-slate-800 text-white font-semibold border border-slate-700 shadow-sm"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-900"
+                  ? "bg-accent text-accent-foreground font-semibold border border-border shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -68,19 +68,19 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="flex items-center gap-3">
         <button
           onClick={() => onNavigate("/dashboard")}
-          className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono"
+          className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-full bg-muted/60 border border-border text-xs font-mono"
         >
-          <span className="text-indigo-400 font-bold flex items-center gap-1">
-            <Sparkles className="w-3 h-3" />
+          <span className="text-foreground font-bold flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-chart-1" />
             Lvl {learner.level}
           </span>
-          <span className="text-slate-500">|</span>
-          <span className="text-slate-300 font-bold">{learner.masteryPercentage}%</span>
+          <span className="text-muted-foreground">|</span>
+          <span className="text-foreground font-bold">{learner.masteryPercentage}%</span>
         </button>
 
         <button
           onClick={() => onNavigate("/profile")}
-          className="w-7 h-7 rounded-full bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center text-xs font-bold text-indigo-300 hover:scale-105 transition-transform"
+          className="w-7 h-7 rounded-full bg-accent border border-border flex items-center justify-center text-xs font-bold text-foreground hover:bg-muted transition-colors"
           title="Open Profile"
         >
           {learner.name.charAt(0)}

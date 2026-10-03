@@ -169,17 +169,17 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-6 text-slate-200">
+    <div className="p-6 max-w-5xl mx-auto space-y-6 text-foreground">
       {/* 1. Concept Name Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-4">
         <div>
-          <div className="flex items-center gap-2 font-mono text-xs text-indigo-400 font-semibold uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 font-mono text-xs text-chart-2 font-semibold uppercase tracking-wider mb-1">
             <Tag className="w-3.5 h-3.5" />
             <span>Python Fundamentals</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
             <span>Functions & Return Values</span>
-            <span className="text-xs font-mono font-medium px-2.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800">
+            <span className="text-xs font-mono font-medium px-2.5 py-0.5 rounded bg-muted text-chart-1 border border-border">
               Medium
             </span>
           </h1>
@@ -188,27 +188,27 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
         <button
           onClick={handleGenerateNewQuestion}
           disabled={isGeneratingQuestion}
-          className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-slate-300 flex items-center gap-2 transition-colors self-start sm:self-auto"
+          className="px-3.5 py-2 rounded-xl bg-card hover:bg-muted border border-border text-xs font-semibold text-foreground flex items-center gap-2 transition-colors self-start sm:self-auto"
           title="Generate a new verified question in this concept"
         >
-          <RefreshCw className={`w-3.5 h-3.5 text-indigo-400 ${isGeneratingQuestion ? "animate-spin" : ""}`} />
+          <RefreshCw className={`w-3.5 h-3.5 text-chart-2 ${isGeneratingQuestion ? "animate-spin" : ""}`} />
           <span>Generate New Question</span>
         </button>
       </div>
 
       {/* 2. Space for Question Generation at the Top */}
-      <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-md">
+      <div className="p-5 rounded-2xl bg-card border border-border space-y-3 shadow-md">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <BookOpen className="w-3.5 h-3.5 text-chart-2" />
             {currentProblem.title}
           </span>
-          <span className="text-[11px] font-mono text-slate-500">
+          <span className="text-[11px] font-mono text-muted-foreground">
             Est. Time: {currentProblem.estimatedTime}
           </span>
         </div>
 
-        <p className="text-sm text-slate-200 leading-relaxed">
+        <p className="text-sm text-foreground leading-relaxed">
           {currentProblem.description}
         </p>
 
@@ -217,14 +217,14 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
           {currentProblem.examples.map((ex, i) => (
             <div
               key={i}
-              className="p-3 rounded-lg bg-black/60 border border-slate-800/80 font-mono text-xs flex items-center justify-between"
+              className="p-3 rounded-lg bg-background border border-border font-mono text-xs flex items-center justify-between"
             >
               <div>
-                <span className="text-slate-500 mr-2">Input:</span>
-                <span className="text-slate-200">{ex.input}</span>
+                <span className="text-muted-foreground mr-2">Input:</span>
+                <span className="text-foreground">{ex.input}</span>
               </div>
               <div>
-                <span className="text-slate-500 mr-2">Returns:</span>
+                <span className="text-muted-foreground mr-2">Returns:</span>
                 <span className="text-emerald-400 font-bold">{ex.output}</span>
               </div>
             </div>
@@ -233,13 +233,13 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
       </div>
 
       {/* 3. Space to Type Your Program & Compile Button */}
-      <div className="rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden shadow-xl">
+      <div className="rounded-2xl bg-card border border-border overflow-hidden shadow-xl">
         {/* Editor Top Bar */}
-        <div className="p-3 bg-[#0d121c] border-b border-slate-800 flex items-center justify-between text-xs">
+        <div className="p-3 bg-muted/40 border-b border-border flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <FileCode className="w-4 h-4 text-indigo-400" />
-            <span className="font-mono text-slate-200 font-semibold">solution.py</span>
-            <span className="text-[11px] text-slate-500 font-mono hidden sm:inline">
+            <FileCode className="w-4 h-4 text-chart-2" />
+            <span className="font-mono text-foreground font-semibold">solution.py</span>
+            <span className="text-[11px] text-muted-foreground font-mono hidden sm:inline">
               (Live Auto-Compile Active)
             </span>
           </div>
@@ -247,7 +247,7 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setCode(currentProblem.starterCode)}
-              className="p-1.5 text-slate-400 hover:text-slate-200 transition-colors"
+              className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
               title="Reset starter template"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -257,11 +257,11 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
             <button
               onClick={() => runCompile(code, true)}
               disabled={isCompiling}
-              className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-950/50 transition-all hover:scale-[1.02]"
+              className="px-4 py-1.5 rounded-lg bg-primary text-primary-foreground hover:opacity-90 font-semibold text-xs flex items-center gap-1.5 shadow-md transition-all hover:scale-[1.02]"
             >
               {isCompiling ? (
                 <>
-                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-3.5 h-3.5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
                   <span>Compiling...</span>
                 </>
               ) : (
@@ -284,7 +284,7 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
             onChange={(val) => handleCodeChange(val || "")}
             options={{
               fontSize: 14,
-              fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+              fontFamily: "'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace",
               minimap: { enabled: false },
               lineNumbers: "on",
               automaticLayout: true,
@@ -296,14 +296,14 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
 
         {/* Compile Result Area */}
         {hasCompiled && compileResult && (
-          <div className="p-4 bg-[#0a0e18] border-t border-slate-800 text-xs font-mono space-y-2">
+          <div className="p-4 bg-background border-t border-border text-xs font-mono space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-slate-400 font-semibold uppercase text-[11px] tracking-wider">
+              <span className="text-muted-foreground font-semibold uppercase text-[11px] tracking-wider">
                 Execution Output
               </span>
               <span
                 className={`font-semibold flex items-center gap-1.5 ${
-                  compileResult.success ? "text-emerald-400" : "text-amber-400"
+                  compileResult.success ? "text-emerald-400" : "text-chart-1"
                 }`}
               >
                 {compileResult.success ? (
@@ -319,13 +319,13 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
-              <div className="p-2 rounded bg-black/60 border border-slate-850">
-                <span className="text-slate-500 mr-2">Terminal stdout:</span>
-                <span className="text-slate-200">{compileResult.stdout ? `"${compileResult.stdout.replace('\n', ' ')}"` : "(none)"}</span>
+              <div className="p-2 rounded bg-muted/40 border border-border">
+                <span className="text-muted-foreground mr-2">Terminal stdout:</span>
+                <span className="text-foreground">{compileResult.stdout ? `"${compileResult.stdout.replace('\n', ' ')}"` : "(none)"}</span>
               </div>
-              <div className="p-2 rounded bg-black/60 border border-slate-850">
-                <span className="text-slate-500 mr-2">Function return:</span>
-                <span className={compileResult.success ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
+              <div className="p-2 rounded bg-muted/40 border border-border">
+                <span className="text-muted-foreground mr-2">Function return:</span>
+                <span className={compileResult.success ? "text-emerald-400 font-bold" : "text-destructive font-bold"}>
                   {compileResult.returnValue || "None"}
                 </span>
               </div>
@@ -336,38 +336,38 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
 
       {/* 4. Line-by-Line Error Insights */}
       {lineInsights && (
-        <div className="p-5 rounded-2xl bg-amber-950/20 border border-amber-800/60 space-y-3 animate-in fade-in duration-200">
-          <div className="flex items-center justify-between border-b border-amber-900/40 pb-2">
+        <div className="p-5 rounded-2xl bg-card border border-destructive/40 space-y-3 animate-in fade-in duration-200">
+          <div className="flex items-center justify-between border-b border-border pb-2">
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-amber-950 text-amber-300 font-mono font-bold text-xs border border-amber-800">
+              <span className="px-2 py-0.5 rounded bg-destructive/15 text-destructive font-mono font-bold text-xs border border-destructive/30">
                 Line {lineInsights.line} Insight
               </span>
-              <span className="text-xs font-semibold text-amber-200">
+              <span className="text-xs font-semibold text-foreground">
                 {lineInsights.errorType}
               </span>
             </div>
           </div>
 
-          <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 font-mono text-xs text-amber-300">
+          <div className="p-2.5 rounded-lg bg-background border border-border font-mono text-xs text-destructive">
             <code>Line {lineInsights.line}: {lineInsights.faultyCode}</code>
           </div>
 
-          <p className="text-xs text-slate-300 leading-relaxed">
+          <p className="text-xs text-foreground leading-relaxed">
             {lineInsights.message}
           </p>
 
-          <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-1">
-            <span className="font-semibold text-indigo-300 font-mono text-[11px] block">
+          <div className="p-3 rounded-xl bg-muted/50 border border-border text-xs space-y-1">
+            <span className="font-semibold text-foreground font-mono text-[11px] block">
               How to fix:
             </span>
-            <p className="text-slate-300 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               {lineInsights.howToFix}
             </p>
           </div>
 
           {/* 5. Text Box Below Insights Box */}
-          <div className="pt-3 border-t border-amber-900/40 space-y-3">
-            <span className="text-[11px] font-mono text-slate-400 block">
+          <div className="pt-3 border-t border-border space-y-3">
+            <span className="text-[11px] font-mono text-muted-foreground block">
               Ask about this insight or line:
             </span>
 
@@ -375,9 +375,9 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
             {insightReplies.length > 0 && (
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {insightReplies.map((item, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1">
-                    <div className="font-semibold text-indigo-300">Q: {item.query}</div>
-                    <div className="text-slate-300 leading-relaxed">{item.reply}</div>
+                  <div key={idx} className="p-3 rounded-xl bg-card border border-border text-xs space-y-1">
+                    <div className="font-semibold text-foreground">Q: {item.query}</div>
+                    <div className="text-muted-foreground leading-relaxed">{item.reply}</div>
                   </div>
                 ))}
               </div>
@@ -389,15 +389,15 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
                 value={insightQuery}
                 onChange={(e) => setInsightQuery(e.target.value)}
                 placeholder="e.g. Why doesn't print() give the value back to result?"
-                className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 font-sans"
+                className="flex-1 bg-input/20 border border-border rounded-xl px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring font-sans"
               />
               <button
                 type="submit"
                 disabled={!insightQuery.trim() || isAnsweringQuery}
-                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors"
+                className="px-4 py-2 rounded-xl bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-40 font-semibold text-xs flex items-center gap-1.5 transition-opacity"
               >
                 {isAnsweringQuery ? (
-                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-3.5 h-3.5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <span>Ask</span>
@@ -411,13 +411,13 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
       )}
 
       {/* 6. Extra Practice & Reassessment Section (Completely Optional) */}
-      <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+      <div className="p-5 rounded-2xl bg-card border border-border space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 className="font-bold text-sm text-slate-100">
+            <h3 className="font-bold text-sm text-foreground">
               Ready for the next concept?
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted-foreground">
               Move forward directly, or take an optional practice transfer challenge.
             </p>
           </div>
@@ -426,7 +426,7 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
             {/* Optional Practice Toggle Button */}
             <button
               onClick={() => setShowPracticeSection(!showPracticeSection)}
-              className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 flex items-center gap-1.5 transition-colors"
+              className="px-3.5 py-2 rounded-xl bg-muted hover:bg-accent text-foreground text-xs font-medium border border-border flex items-center gap-1.5 transition-colors"
             >
               <span>{showPracticeSection ? "Hide Practice" : "Additional Practice"}</span>
               {showPracticeSection ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -435,7 +435,7 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
             {/* Direct Move Forward Action */}
             <button
               onClick={onMoveForward}
-              className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-xs text-white shadow-md shadow-indigo-950/50 flex items-center gap-1.5 transition-all hover:scale-[1.02]"
+              className="px-5 py-2 rounded-xl bg-primary text-primary-foreground hover:opacity-90 font-semibold text-xs shadow-md flex items-center gap-1.5 transition-all hover:scale-[1.02]"
             >
               <span>Next Lesson</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -445,17 +445,17 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
 
         {/* Expanded Practice & Reassessment Section */}
         {showPracticeSection && (
-          <div className="pt-4 border-t border-slate-800 space-y-4 animate-in fade-in duration-200">
-            <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-900/40 space-y-2">
+          <div className="pt-4 border-t border-border space-y-4 animate-in fade-in duration-200">
+            <div className="p-4 rounded-xl bg-muted/40 border border-border space-y-2">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs font-bold text-indigo-300">
+                <span className="font-mono text-xs font-bold text-foreground">
                   Optional Reassessment: Calculate Sales Tax
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800 font-mono">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-muted text-muted-foreground border border-border font-mono">
                   Concept Transfer
                 </span>
               </div>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-foreground">
                 Write <code>calculate_tax(subtotal, rate)</code> that calculates the tax and returns the total final price (subtotal + subtotal * rate).
               </p>
             </div>
@@ -465,13 +465,13 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
                 rows={3}
                 value={practiceCode}
                 onChange={(e) => setPracticeCode(e.target.value)}
-                className="w-full p-3 rounded-xl bg-black border border-slate-800 font-mono text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                className="w-full p-3 rounded-xl bg-input/20 border border-border font-mono text-xs text-foreground focus:outline-none focus:border-ring"
               />
 
               <div className="flex items-center justify-between">
                 <button
                   onClick={handleTestPractice}
-                  className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs flex items-center gap-1.5"
+                  className="px-4 py-1.5 rounded-lg bg-muted hover:bg-accent text-foreground font-medium text-xs flex items-center gap-1.5 border border-border transition-colors"
                 >
                   <Play className="w-3 h-3" />
                   <span>Verify Practice</span>
@@ -483,7 +483,7 @@ export const LearningDashboard: React.FC<LearningDashboardProps> = ({
                   </span>
                 )}
                 {practiceResult === "error" && (
-                  <span className="text-xs text-rose-400 font-mono font-semibold flex items-center gap-1">
+                  <span className="text-xs text-destructive font-mono font-semibold flex items-center gap-1">
                     <AlertTriangle className="w-3.5 h-3.5" /> Function must return the calculated value.
                   </span>
                 )}

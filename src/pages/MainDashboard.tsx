@@ -86,39 +86,39 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
   ];
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-8 text-slate-200">
+    <div className="p-6 max-w-6xl mx-auto space-y-8 text-foreground">
       {/* Header */}
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Python Fundamentals Dashboard
         </h1>
-        <p className="text-xs sm:text-sm text-slate-400">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           Track concept mastery and continue your personalized programming path.
         </p>
       </div>
 
       {/* Level & Progress Hero Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-[#0d131f] via-[#101726] to-[#0a0f1a] border border-slate-800 shadow-xl space-y-5">
+      <div className="p-6 rounded-2xl bg-card border border-border shadow-md space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 font-mono text-xs text-indigo-400 font-semibold uppercase tracking-wider">
+            <div className="flex items-center gap-2 font-mono text-xs text-chart-1 font-semibold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Current Progression</span>
             </div>
-            <div className="text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
+            <div className="text-xl sm:text-2xl font-bold text-foreground flex items-center gap-3">
               <span>Level {learner.level}: {learner.levelTitle}</span>
-              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800">
+              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-muted text-foreground border border-border">
                 {learner.masteryPercentage}% Mastery
               </span>
             </div>
-            <p className="text-xs text-slate-400 max-w-lg">
+            <p className="text-xs text-muted-foreground max-w-lg">
               Your level increases when underlying concept understanding improves, not simply by solving more questions.
             </p>
           </div>
 
           <button
             onClick={() => onStartLesson("functions")}
-            className="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-xs sm:text-sm text-white shadow-lg shadow-indigo-950/60 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shrink-0"
+            className="px-5 py-3 rounded-xl bg-primary text-primary-foreground hover:opacity-90 font-semibold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shrink-0"
           >
             <span>Continue Current Lesson</span>
             <ArrowRight className="w-4 h-4" />
@@ -126,14 +126,14 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
         </div>
 
         {/* Progress Bar with Milestones */}
-        <div className="space-y-2 pt-2 border-t border-slate-800/80">
-          <div className="flex justify-between text-xs font-mono text-slate-400">
+        <div className="space-y-2 pt-2 border-t border-border">
+          <div className="flex justify-between text-xs font-mono text-muted-foreground">
             <span>Progress to Level {learner.level + 1}</span>
-            <span className="text-indigo-300 font-semibold">{learner.masteryProgressToNextLevel}%</span>
+            <span className="text-foreground font-semibold">{learner.masteryProgressToNextLevel}%</span>
           </div>
-          <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+          <div className="w-full bg-muted h-2.5 rounded-full overflow-hidden border border-border">
             <div
-              className="bg-indigo-500 h-full rounded-full transition-all duration-500"
+              className="bg-primary h-full rounded-full transition-all duration-500"
               style={{ width: `${learner.masteryProgressToNextLevel}%` }}
             />
           </div>
@@ -143,11 +143,11 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
       {/* Python Fundamentals Grid */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-indigo-400" />
+          <h2 className="text-base font-bold text-foreground flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-chart-2" />
             Core Python Fundamentals
           </h2>
-          <span className="text-xs font-mono text-slate-500">
+          <span className="text-xs font-mono text-muted-foreground">
             8 Total Modules
           </span>
         </div>
@@ -158,8 +158,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               key={fund.id}
               className={`p-5 rounded-xl border transition-all flex flex-col justify-between gap-4 ${
                 fund.isCurrent
-                  ? "bg-slate-900/90 border-indigo-500/60 shadow-md shadow-indigo-950/30"
-                  : "bg-slate-900/50 border-slate-800 hover:border-slate-700 hover:bg-slate-900/80"
+                  ? "bg-card border-chart-2 shadow-sm"
+                  : "bg-card/70 border-border hover:border-border/80 hover:bg-card"
               }`}
             >
               <div className="space-y-2">
@@ -167,28 +167,28 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                   <span className={`text-[11px] font-mono px-2 py-0.5 rounded border ${fund.statusColor}`}>
                     {fund.status}
                   </span>
-                  <span className="text-xs font-mono font-bold text-slate-300">
+                  <span className="text-xs font-mono font-bold text-foreground">
                     {fund.mastery}%
                   </span>
                 </div>
 
-                <h3 className="font-bold text-sm text-slate-100">
+                <h3 className="font-bold text-sm text-foreground">
                   {fund.title}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   {fund.description}
                 </p>
               </div>
 
-              <div className="space-y-3 pt-2 border-t border-slate-800/80">
-                <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
+              <div className="space-y-3 pt-2 border-t border-border">
+                <div className="w-full bg-muted h-1.5 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full ${
                       fund.mastery >= 75
                         ? "bg-emerald-500"
                         : fund.mastery >= 50
-                        ? "bg-indigo-500"
-                        : "bg-amber-500"
+                        ? "bg-chart-2"
+                        : "bg-chart-1"
                     }`}
                     style={{ width: `${fund.mastery}%` }}
                   />
@@ -199,8 +199,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                     onClick={() => onStartLesson(fund.id)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
                       fund.isCurrent
-                        ? "bg-indigo-600 hover:bg-indigo-500 text-white"
-                        : "bg-slate-800 hover:bg-slate-700 text-slate-300"
+                        ? "bg-primary text-primary-foreground hover:opacity-90"
+                        : "bg-muted hover:bg-accent text-foreground"
                     }`}
                   >
                     <span>{fund.isCurrent ? "Start Lesson" : "Practice Concept"}</span>
