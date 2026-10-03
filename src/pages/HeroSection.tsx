@@ -44,7 +44,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             misconception behind your mistake, explains it line by line, and verifies that you understand it.
           </p>
 
-          {/* CTAs */}
+          {/* Existing Start Learning & Dashboard CTAs (Unchanged) */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
             <button
               onClick={onStartLearning}
@@ -79,8 +79,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       </section>
 
       {/* ================================================== */}
-      {/* 2. EXISTING HOME CONTENT - COMPARISON SECTION      */}
+      {/* 2. MACBOOK SHOWCASE — CENTERED IMMEDIATELY BELOW   */}
+      {/*    START LEARNING / HERO SECTION                  */}
       {/* ================================================== */}
+      <MacbookShowcase />
+
+      {/* ================================================== */}
+      {/* 3. EXISTING REMAINING HOME CONTENT                 */}
+      {/*    (MOVED BELOW THE MACBOOK SHOWCASE)             */}
+      {/* ================================================== */}
+
+      {/* Comparison Section */}
       <section className="py-20 px-6 max-w-5xl mx-auto w-full border-b border-border">
         <div className="space-y-2 mb-10 text-center sm:text-left">
           <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
@@ -176,9 +185,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
       </section>
 
-      {/* ================================================== */}
-      {/* 3. EXISTING HOME CONTENT - 4-STEP COGNITIVE LOOP   */}
-      {/* ================================================== */}
+      {/* 4-Step Cognitive Loop */}
       <section className="py-20 px-6 max-w-5xl mx-auto w-full border-b border-border">
         <div className="space-y-2 mb-10 text-center sm:text-left">
           <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
@@ -240,9 +247,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
       </section>
 
-      {/* ================================================== */}
-      {/* 4. EXISTING HOME CONTENT - ENGINE HIGHLIGHTS       */}
-      {/* ================================================== */}
+      {/* Engine Architecture Highlights */}
       <section className="py-20 px-6 max-w-5xl mx-auto w-full border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="space-y-4">
@@ -301,11 +306,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         </div>
       </section>
-
-      {/* ================================================== */}
-      {/* 5. MACBOOK SHOWCASE — FINAL SECTION OF HOME PAGE   */}
-      {/* ================================================== */}
-      <MacbookShowcase />
 
       {/* END OF HOME PAGE */}
     </div>

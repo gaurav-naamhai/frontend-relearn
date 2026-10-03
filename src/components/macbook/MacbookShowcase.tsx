@@ -4,8 +4,11 @@ import {
   useScroll,
   useSpring,
   useTransform,
+  useMotionValue,
+  animate,
   useMotionValueEvent,
   cubicBezier,
+  AnimatePresence,
 } from "framer-motion";
 import {
   AlertTriangle,
@@ -16,19 +19,13 @@ import {
   CheckCircle2,
   Bug,
   Activity,
+  Power,
+  RotateCcw,
 } from "lucide-react";
 
 // ==================================================
 // MOTION VALUES & CONSTANTS (Strictly Preserved)
 // ==================================================
-
-const P_LID_START = 0.06;
-const P_LID_END   = 0.34;
-const P_LED_START = 0.30;
-const P_LED_END   = 0.36;
-const P_GLOW      = 0.355;
-const P_CONTENT   = 0.42;
-const P_SITES     = 0.44;
 
 const BLUE = "#6182ff";
 
@@ -54,7 +51,7 @@ const KEY_ROWS: number[][] = [
   Array(13).fill(1),
   [1.4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.4],
   [1.65, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.2],
-  [1.9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.95],
+  [1.9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.95],
   [2.45, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.45],
   [1.3, 1.3, 1.3, 6.8, 1.3, 1.3, 1.3],
 ];
@@ -102,15 +99,20 @@ const PROJECTS = [
 
 export const MacbookShowcase: React.FC = () => {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
   const [activeProjectIdx, setActiveProjectIdx] = useState(0);
 
-  // Scroll tracking on 620vh track
+  // Motion value for explicit Start click opening animation (0 = closed, 1 = opened)
+  const openProgress = useMotionValue(0);
+
+  // Scroll tracking on pinned track
   const { scrollYProgress } = useScroll({
     target: trackRef,
     offset: ["start start", "end end"],
   });
 
-  // Spring smoothed motion value
+  // Spring smoothed scroll progress
   const sp = useSpring(scrollYProgress, {
     stiffness: 250,
     damping: 40,
@@ -118,34 +120,59 @@ export const MacbookShowcase: React.FC = () => {
     restDelta: 0.0001,
   });
 
-  // Laptop Lid opening transform
+  // Handle explicit Start click
+  const handleStart = () => {
+    setIsStarted(true);
+    setIsOpening(true);
+    animate(openProgress, 1, {
+      duration: 1.35,
+      ease: hingeEase,
+      onComplete: () => {
+        setIsOpening(false);
+      },
+    });
+  };
+
+  // Optional reset control to re-close
+  const handleReset = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsOpening(true);
+    animate(openProgress, 0, {
+      duration: 0.9,
+      ease: hingeEase,
+      onComplete: () => {
+        setIsStarted(false);
+        setIsOpening(false);
+      },
+    });
+  };
+
+  // Laptop Lid opening transform driven by explicit Start interaction
   const lidAngle = useTransform(
-    sp,
-    [P_LID_START, 0.13, 0.24, 0.305, 0.325, P_LID_END],
-    [-90, -71, -30, -7, 1.1, 0],
-    { ease: hingeEase }
+    openProgress,
+    [0, 0.25, 0.58, 0.84, 0.95, 1.0],
+    [-90, -71, -30, -7, 1.1, 0]
   );
 
   const lidRotate = useTransform(lidAngle, (a) => `rotateX(${a}deg)`);
 
-  // Screen power-on & opacity
-  const panelBlack = useTransform(sp, [P_GLOW, P_CONTENT], [1, 0]);
-  const contentOpacity = useTransform(sp, [P_GLOW + 0.02, P_CONTENT], [0, 1]);
-  const ledOpacity = useTransform(sp, [P_LED_START, P_LED_END], [0, 1]);
-  const screenGlowOpacity = useTransform(sp, [P_GLOW, (P_GLOW + P_CONTENT) / 2, P_CONTENT], [0, 0.35, 0.12]);
+  // Screen power-on & lighting transforms
+  const panelBlack = useTransform(openProgress, [0.72, 0.98], [1, 0]);
+  const contentOpacity = useTransform(openProgress, [0.78, 1.0], [0, 1]);
+  const ledOpacity = useTransform(openProgress, [0.55, 0.85], [0, 1]);
+  const screenGlowOpacity = useTransform(openProgress, [0.72, 0.88, 1.0], [0, 0.35, 0.12]);
 
-  // Project Filmstrip Transforms
+  // Project Filmstrip Transitions driven by scroll
   const N = PROJECTS.length;
   const STEP = 100 / N;
-  const span = 1 - P_SITES;
 
   const stripIn: number[] = [];
   const stripOut: number[] = [];
 
   for (let i = 0; i < N; i++) {
     stripIn.push(
-      P_SITES + (i / N) * span,
-      P_SITES + ((i + 0.68) / N) * span
+      (i / N),
+      ((i + 0.68) / N)
     );
     stripOut.push(-i * STEP, -i * STEP);
   }
@@ -158,19 +185,18 @@ export const MacbookShowcase: React.FC = () => {
 
   // Sync active project index for indicators
   useMotionValueEvent(sp, "change", (latest) => {
-    if (latest < P_SITES) {
+    if (!isStarted) {
       setActiveProjectIdx(0);
-    } else {
-      const prog = (latest - P_SITES) / (1 - P_SITES);
-      const idx = Math.min(Math.floor(prog * N), N - 1);
-      setActiveProjectIdx(Math.max(0, idx));
+      return;
     }
+    const idx = Math.min(Math.floor(latest * N), N - 1);
+    setActiveProjectIdx(Math.max(0, idx));
   });
 
   return (
     <div
       ref={trackRef}
-      className="relative w-full h-[620vh] bg-[#07090e] text-[#f0f6fc] select-none"
+      className={`relative w-full ${isStarted ? "h-[380vh]" : "h-[100vh]"} bg-[#07090e] text-[#f0f6fc] select-none transition-[height] duration-500`}
     >
       {/* Sticky Viewport Container */}
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden flex flex-col items-center justify-between py-6 px-4">
@@ -222,7 +248,7 @@ export const MacbookShowcase: React.FC = () => {
         <div className="relative z-20 text-center space-y-1 mt-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#111622] border border-[#232d42] text-[11px] font-mono text-[#8b949e]">
             <Cpu className="w-3.5 h-3.5 text-[#58a6ff]" />
-            <span>Re:Learn Architecture Showcase</span>
+            <span>Interactive Diagnostic Showcase</span>
           </div>
           <h2 className="text-sm sm:text-base font-bold font-mono tracking-tight text-[#f0f6fc]">
             Live Interactive Diagnostic Environment
@@ -237,6 +263,38 @@ export const MacbookShowcase: React.FC = () => {
             perspectiveOrigin: "50% 34%",
           }}
         >
+          {/* NEW SEPARATE START CONTROL (Prominently displayed when closed) */}
+          <AnimatePresence>
+            {!isStarted && (
+              <motion.div
+                initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -16, scale: 0.94 }}
+                transition={{ duration: 0.25 }}
+                className="absolute z-40 flex flex-col items-center gap-3.5 pointer-events-auto"
+              >
+                <button
+                  onClick={handleStart}
+                  className="group relative px-6 py-3 rounded-xl bg-[#121622] hover:bg-[#182030] text-[#f0f6fc] border border-[#2d3a52] hover:border-[#4d628a] font-mono text-xs font-bold tracking-wider shadow-[0_8px_30px_rgba(0,0,0,0.85)] flex items-center gap-3 transition-all hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
+                >
+                  <span className="flex h-2 w-2 relative">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#58a6ff] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#58a6ff]" />
+                  </span>
+                  <span>START SHOWCASE</span>
+                  <span className="px-2 py-0.5 rounded bg-[#1e273a] text-[10px] text-[#8b949e] border border-[#2e3e5c] group-hover:text-[#f0f6fc] transition-colors">
+                    Click to Open
+                  </span>
+                </button>
+                <div className="flex items-center gap-2 text-[11px] font-mono text-[#8b949e]">
+                  <span>Physical 3D Startup</span>
+                  <span>•</span>
+                  <span>Live DOM Studio</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* 3D Laptop Assembly */}
           <div
             className="relative flex flex-col items-center"
@@ -306,7 +364,7 @@ export const MacbookShowcase: React.FC = () => {
                     className="relative z-10 flex h-full"
                     style={{
                       width: `${N * 100}%`,
-                      transform: stripTransform,
+                      transform: isStarted ? stripTransform : "translateX(0%)",
                       opacity: contentOpacity,
                     }}
                   >
@@ -685,7 +743,7 @@ export const MacbookShowcase: React.FC = () => {
               {String(activeProjectIdx + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
             </span>
             <span className="text-[#c9d1d9] font-medium hidden sm:inline">
-              {PROJECTS[activeProjectIdx]?.title}
+              {isStarted ? PROJECTS[activeProjectIdx]?.title : "MacBook Showcase (Closed)"}
             </span>
           </div>
 
@@ -695,7 +753,7 @@ export const MacbookShowcase: React.FC = () => {
               <div
                 key={proj.id}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  activeProjectIdx === idx
+                  isStarted && activeProjectIdx === idx
                     ? "w-6 bg-[#58a6ff]"
                     : "w-2 bg-[#212a3b]"
                 }`}
@@ -703,10 +761,30 @@ export const MacbookShowcase: React.FC = () => {
             ))}
           </div>
 
-          {/* Scroll to Explore Mouse Indicator */}
-          <div className="flex items-center gap-2 text-[#8b949e]">
-            <Mouse className="w-3.5 h-3.5 text-[#58a6ff]" />
-            <span>Scroll to explore engine</span>
+          {/* Interactive Status & Reset Option */}
+          <div className="flex items-center gap-3 text-[#8b949e]">
+            {isStarted ? (
+              <>
+                <div className="flex items-center gap-1.5 text-[#58a6ff]">
+                  <Mouse className="w-3.5 h-3.5" />
+                  <span>Scroll to navigate live pages</span>
+                </div>
+                <button
+                  onClick={handleReset}
+                  disabled={isOpening}
+                  className="px-2 py-0.5 rounded bg-[#141b27] hover:bg-[#1f293b] text-[#8b949e] hover:text-[#f0f6fc] border border-[#222d40] text-[10px] flex items-center gap-1 transition-colors cursor-pointer"
+                  title="Close and Reset"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Reset</span>
+                </button>
+              </>
+            ) : (
+              <div className="flex items-center gap-1.5 text-[#8b949e]">
+                <Power className="w-3.5 h-3.5 text-[#58a6ff]" />
+                <span>Click Start to power on laptop</span>
+              </div>
+            )}
           </div>
 
         </div>
