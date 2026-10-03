@@ -186,3 +186,35 @@ body {
 .font-mono {
   font-family: var(--font-mono);
 }
+
+:root {
+  --mbw: min(
+    74vw,
+    calc((87svh - 7rem) / 0.775),
+    1360px
+  );
+}
+
+@keyframes mbDrift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2.6%); }
+}
+
+@keyframes mbCursor {
+  0%   { left: 24%; top: 72%; opacity: 0; }
+  8%   { opacity: 1; }
+  30%  { left: 27%; top: 60%; }
+  54%  { left: 61%; top: 42%; }
+  76%  { left: 44%; top: 76%; }
+  92%  { left: 31%; top: 68%; opacity: 1; }
+  100% { left: 24%; top: 72%; opacity: 0; }
+}
+
+.animate-mb-drift {
+  animation: mbDrift 6s ease-in-out infinite alternate;
+}
+
+.animate-mb-cursor {
+  animation: mbCursor 7s ease-in-out infinite;
+}
+
