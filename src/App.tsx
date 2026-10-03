@@ -143,7 +143,7 @@ export default function App() {
 
   // App Layout with Persistent Sidebar
   return (
-    <div className="flex h-screen w-full bg-[#070a10] text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-full bg-[#090d13] text-[#e6edf3] overflow-hidden font-sans">
       {/* Persistent Sidebar */}
       <Sidebar
         currentPath={currentPath}
@@ -167,7 +167,7 @@ export default function App() {
         />
 
         {/* View Router */}
-        <main className="flex-1 overflow-y-auto custom-scrollbar bg-[#080c14]">
+        <main className="flex-1 overflow-y-auto custom-scrollbar bg-[#090d13]">
           {currentPath === "/dashboard" && (
             <DashboardPage
               learner={learner}

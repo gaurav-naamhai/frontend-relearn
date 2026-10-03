@@ -8,8 +8,8 @@ import {
   CheckCircle2,
   AlertTriangle,
   ArrowRight,
-  Sparkles,
   Play,
+  Layers,
 } from "lucide-react";
 
 interface ReassessmentPageProps {
@@ -23,7 +23,6 @@ export const ReassessmentPage: React.FC<ReassessmentPageProps> = ({
   onComplete,
   initialView = "transfer",
 }) => {
-
   const [currentStepIndex, setCurrentStepIndex] = useState(
     initialView === "style" ? 1 : initialView === "predict" ? 2 : 0
   );
@@ -36,7 +35,6 @@ export const ReassessmentPage: React.FC<ReassessmentPageProps> = ({
   const [isProvisionalMastery, setIsProvisionalMastery] = useState(false);
 
   const handleRunTransfer1 = () => {
-    // Check if code has return
     if (transfer1Code.includes("return")) {
       setTransfer1Result("passed");
     } else {
@@ -59,51 +57,51 @@ export const ReassessmentPage: React.FC<ReassessmentPageProps> = ({
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6 text-slate-200">
-      {/* Header (Section 20) */}
+    <div className="p-5 max-w-4xl mx-auto space-y-5 text-[#c9d1d9] select-none">
+      {/* Header */}
       <div className="space-y-1">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">
-            Reassessment Step {currentStepIndex + 1} of 3
+        <div className="flex items-center gap-2 font-mono text-xs">
+          <span className="font-semibold px-2 py-0.5 rounded bg-[#141922] text-[#c9d1d9] border border-[#262e3d]">
+            Reassessment Phase {currentStepIndex + 1} / 3
           </span>
-          <span className="text-xs text-slate-400 font-mono">Target: Return vs Print</span>
+          <span className="text-[#8b949e]">Target: Return vs Print</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-          Let's check whether the idea stuck.
+        <h1 className="text-xl sm:text-2xl font-bold text-[#f0f6fc] font-mono tracking-tight">
+          Concept Transfer Verification
         </h1>
-        <p className="text-xs sm:text-sm text-slate-300">
-          Solving the original problem correctly isn't enough. Let's test the same idea in a new situation.
+        <p className="text-xs text-[#8b949e]">
+          Solving the original problem is not enough. Re:Learn checks if the mental model generalizes into fresh problems.
         </p>
       </div>
 
       {/* Navigation Pills */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 text-xs font-mono">
+      <div className="flex items-center gap-1.5 border-b border-[#212734] pb-2.5 text-xs font-mono">
         <button
           onClick={() => setCurrentStepIndex(0)}
-          className={`px-3 py-1.5 rounded-lg transition-colors ${
+          className={`px-3 py-1 rounded transition-colors ${
             currentStepIndex === 0
-              ? "bg-indigo-600 text-white font-bold"
-              : "text-slate-400 hover:text-slate-200 bg-slate-900"
+              ? "bg-[#18202d] text-[#f0f6fc] border border-[#2d384c] font-semibold"
+              : "text-[#8b949e] hover:text-[#f0f6fc] bg-[#0e1218] border border-transparent"
           }`}
         >
           1. Transfer: Tax Calculation
         </button>
         <button
           onClick={() => setCurrentStepIndex(1)}
-          className={`px-3 py-1.5 rounded-lg transition-colors ${
+          className={`px-3 py-1 rounded transition-colors ${
             currentStepIndex === 1
-              ? "bg-indigo-600 text-white font-bold"
-              : "text-slate-400 hover:text-slate-200 bg-slate-900"
+              ? "bg-[#18202d] text-[#f0f6fc] border border-[#2d384c] font-semibold"
+              : "text-[#8b949e] hover:text-[#f0f6fc] bg-[#0e1218] border border-transparent"
           }`}
         >
-          2. Teaching Style Switch
+          2. Teaching Representation Switch
         </button>
         <button
           onClick={() => setCurrentStepIndex(2)}
-          className={`px-3 py-1.5 rounded-lg transition-colors ${
+          className={`px-3 py-1 rounded transition-colors ${
             currentStepIndex === 2
-              ? "bg-indigo-600 text-white font-bold"
-              : "text-slate-400 hover:text-slate-200 bg-slate-900"
+              ? "bg-[#18202d] text-[#f0f6fc] border border-[#2d384c] font-semibold"
+              : "text-[#8b949e] hover:text-[#f0f6fc] bg-[#0e1218] border border-transparent"
           }`}
         >
           3. Predict & Explain
@@ -112,38 +110,38 @@ export const ReassessmentPage: React.FC<ReassessmentPageProps> = ({
 
       {/* STEP 1: TRANSFER PROBLEM 1 */}
       {currentStepIndex === 0 && (
-        <div className="space-y-4">
-          <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-base text-slate-100">
+        <div className="space-y-3.5">
+          <div className="p-4 rounded bg-[#0e1218] border border-[#212734] space-y-3">
+            <div className="flex items-center justify-between font-mono">
+              <h3 className="font-bold text-sm text-[#f0f6fc]">
                 Transfer Problem 1: Calculate Sales Tax
               </h3>
-              <span className="text-[11px] font-mono text-slate-400">
+              <span className="text-[10px] text-[#8b949e]">
                 Surface context: Finance
               </span>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-[#8b949e] leading-relaxed">
               Write a function <code>calculate_tax(subtotal, rate)</code> that returns the total
-              final price after adding tax (<code>subtotal + subtotal * rate</code>). The returned value must be usable in further calculations.
+              final price after adding tax (<code>subtotal + subtotal * rate</code>). The returned value must be stored in caller memory for further operations.
             </p>
 
             {/* Code Box */}
-            <div className="space-y-2">
-              <div className="text-[11px] font-mono text-slate-400">Your Transfer Solution:</div>
+            <div className="space-y-1 font-mono text-xs">
+              <div className="text-[10px] text-[#8b949e] uppercase">Your Transfer Solution:</div>
               <textarea
                 rows={4}
                 value={transfer1Code}
                 onChange={(e) => setTransfer1Code(e.target.value)}
-                className="w-full p-3 rounded-xl bg-black border border-slate-800 font-mono text-xs text-indigo-200 focus:outline-none focus:border-indigo-500"
+                className="w-full p-3 rounded bg-[#090d13] border border-[#212734] font-mono text-xs text-[#58a6ff] focus:outline-none focus:border-[#388bfd]"
               />
             </div>
 
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center justify-between pt-1 font-mono">
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleRunTransfer1}
-                  className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-950/40"
+                  className="px-3.5 py-1.5 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-semibold text-xs flex items-center gap-1.5 border border-[#2ea043] transition-colors"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>Run Transfer Tests</span>
@@ -151,29 +149,29 @@ export const ReassessmentPage: React.FC<ReassessmentPageProps> = ({
               </div>
 
               {transfer1Result === "passed" && (
-                <div className="flex items-center gap-2 text-emerald-400 font-semibold text-xs animate-in fade-in duration-300">
+                <div className="flex items-center gap-1.5 text-[#3fb950] font-semibold text-xs font-mono">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>✓ Transfer problem passed</span>
+                  <span>Transfer problem verified</span>
                 </div>
               )}
             </div>
 
             {transfer1Result === "passed" && (
-              <div className="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-800/60 text-xs text-emerald-200 space-y-2 animate-in fade-in duration-300">
-                <div className="font-bold flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Transfer Success!</span>
+              <div className="p-3 rounded bg-[#0c2013] border border-[#1e4a29] text-xs text-[#c9d1d9] space-y-2">
+                <div className="font-bold text-[#3fb950] flex items-center gap-1.5 font-mono">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>Transfer Passed</span>
                 </div>
-                <p>
+                <p className="text-xs text-[#8b949e]">
                   You applied the return value concept in a brand new problem context.
-                  Now let's test a second transfer challenge to see what happens when difficulty shifts.
+                  Now let's examine what happens when representation is switched.
                 </p>
-                <div className="flex justify-end pt-1">
+                <div className="flex justify-end pt-1 font-mono">
                   <button
                     onClick={() => setCurrentStepIndex(1)}
-                    className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs flex items-center gap-1"
+                    className="px-3.5 py-1.5 rounded bg-[#1e2736] hover:bg-[#273347] text-[#f0f6fc] font-semibold text-xs border border-[#37465f] flex items-center gap-1"
                   >
-                    <span>Proceed to Scene 8 (Teaching Switch)</span>
+                    <span>Proceed to Representation Switch</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -183,18 +181,18 @@ export const ReassessmentPage: React.FC<ReassessmentPageProps> = ({
         </div>
       )}
 
-      {/* STEP 2: TEACHING STYLE SWITCH (Section 22 & Scene 8) */}
+      {/* STEP 2: TEACHING STYLE SWITCH */}
       {currentStepIndex === 1 && (
-        <div className="space-y-4">
-          {/* Simulated Transfer Failure Alert */}
-          <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-800/60 text-xs text-amber-200 space-y-2">
-            <div className="flex items-center gap-2 font-bold text-amber-300">
-              <AlertTriangle className="w-4 h-4" />
+        <div className="space-y-3.5">
+          {/* Simulated Transfer Residue Alert */}
+          <div className="p-3 rounded bg-[#1f1608] border border-[#4d360f] text-xs space-y-1.5">
+            <div className="flex items-center gap-1.5 font-bold text-[#d29922] font-mono">
+              <AlertTriangle className="w-3.5 h-3.5" />
               <span>Transfer Challenge 2 Exposed Misconception Residue</span>
             </div>
-            <p className="text-slate-300">
-              "You solved the previous problem correctly, but this new situation exposed the same issue.
-              Let's explain this differently so the mental model locks in permanently."
+            <p className="text-[#8b949e] leading-relaxed">
+              "You solved the previous challenge correctly, but this new problem structure revealed partial misconception residue.
+              Let's switch the explanatory representation to lock in the mental model."
             </p>
           </div>
 
@@ -205,48 +203,47 @@ export const ReassessmentPage: React.FC<ReassessmentPageProps> = ({
             preferredStyle="Contrast examples"
           />
 
-          <div className="flex justify-end pt-2">
+          <div className="flex justify-end pt-1 font-mono">
             <button
               onClick={() => setCurrentStepIndex(2)}
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-950/50"
+              className="px-4 py-1.5 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-bold text-xs border border-[#2ea043] flex items-center gap-1.5 transition-colors"
             >
-              <span>Test Knowledge with Predict & Explain (Scene 9)</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Test Knowledge with Predict & Explain</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 3: PREDICT AND EXPLAIN & DELAYED RECHECK (Section 23-24 & Scenes 9-10) */}
+      {/* STEP 3: PREDICT AND EXPLAIN & PROVISIONAL MASTERY */}
       {currentStepIndex === 2 && (
-        <div className="space-y-5">
+        <div className="space-y-4">
           <PredictAndExplain onPassed={handlePredictPassed} />
 
           {/* Provisional Mastery Banner */}
           {isProvisionalMastery && (
-            <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-500/70 shadow-xl space-y-3 animate-in fade-in duration-300">
+            <div className="p-4 rounded bg-[#0c2013] border border-[#1e4a29] space-y-2.5">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                  <span>✓ Provisional Mastery Achieved</span>
+                <div className="flex items-center gap-2 text-[#3fb950] font-bold text-xs font-mono">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Provisional Concept Mastery Achieved</span>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono">
-                  Concept Generalization Confirmed
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#0e1b2e] text-[#58a6ff] border border-[#1f3b60] font-mono">
+                  Generalization Confirmed
                 </span>
               </div>
 
-              <p className="text-xs text-slate-300 leading-relaxed">
-                "We'll check this idea again later to make sure it sticks in long-term memory."
-                In a live session, this check appears spaced over time. For this demo, you can trigger the delayed re-check now!
+              <p className="text-xs text-[#8b949e] leading-relaxed">
+                In a live session, spaced delayed re-checks occur automatically over intervals. For this interactive demo, you can trigger the delayed re-check now to graduate this misconception.
               </p>
 
-              <div className="flex justify-end pt-1">
+              <div className="flex justify-end pt-1 font-mono">
                 <button
                   onClick={() => setIsDelayedModalOpen(true)}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-950/50 flex items-center gap-1.5"
+                  className="px-4 py-1.5 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-bold text-xs border border-[#2ea043] flex items-center gap-1.5 transition-colors"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Trigger Delayed Re-Check (Scene 10)</span>
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>Trigger Delayed Re-Check</span>
                 </button>
               </div>
             </div>

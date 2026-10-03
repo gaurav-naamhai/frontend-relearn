@@ -18,33 +18,34 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const clamped = Math.min(100, Math.max(0, value));
 
   const heightClasses = {
-    sm: "h-1.5",
-    md: "h-2.5",
-    lg: "h-3.5",
+    sm: "h-1",
+    md: "h-1.5",
+    lg: "h-2.5",
   }[height];
 
   const colorClasses = {
-    emerald: "bg-emerald-500",
-    indigo: "bg-indigo-500",
-    amber: "bg-amber-500",
-    rose: "bg-rose-500",
-    purple: "bg-purple-500",
+    emerald: "bg-[#2ea043]",
+    indigo: "bg-[#4a5a75]",
+    amber: "bg-[#d29922]",
+    rose: "bg-[#f85149]",
+    purple: "bg-[#8b949e]",
   }[color];
 
   return (
     <div className={`w-full ${className}`}>
       {showLabel && (
-        <div className="flex justify-between items-center text-xs mb-1.5 text-slate-400 font-mono">
+        <div className="flex justify-between items-center text-[11px] mb-1 text-[#8b949e] font-mono">
           <span>Progress</span>
-          <span className="text-slate-200 font-semibold">{clamped}%</span>
+          <span className="text-[#f0f6fc] font-semibold">{clamped}%</span>
         </div>
       )}
-      <div className={`w-full bg-slate-900/90 rounded-full overflow-hidden border border-slate-800 ${heightClasses}`}>
+      <div className={`w-full bg-[#12161f] rounded-sm overflow-hidden border border-[#212734] ${heightClasses}`}>
         <div
-          className={`h-full rounded-full transition-all duration-700 ease-out ${colorClasses}`}
+          className={`h-full rounded-sm transition-all duration-500 ease-out ${colorClasses}`}
           style={{ width: `${clamped}%` }}
         />
       </div>
     </div>
   );
 };
+

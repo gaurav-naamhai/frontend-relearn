@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
-import { Play, RotateCcw, Sparkles, FileCode } from "lucide-react";
+import { Play, RotateCcw, FileCode, Sparkles } from "lucide-react";
 
 interface CodeEditorWrapperProps {
   code: string;
@@ -9,7 +9,7 @@ interface CodeEditorWrapperProps {
   onReset: () => void;
   onLoadDemoCode?: () => void;
   isRunning: boolean;
-  highlightedLines?: number[]; // e.g. [2]
+  highlightedLines?: number[];
 }
 
 export const CodeEditorWrapper: React.FC<CodeEditorWrapperProps> = ({
@@ -27,7 +27,7 @@ export const CodeEditorWrapper: React.FC<CodeEditorWrapperProps> = ({
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
 
-    // Define keyboard shortcut Ctrl+Enter or Cmd+Enter to run code
+    // Ctrl+Enter or Cmd+Enter to run
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
       onRun();
     });
@@ -48,10 +48,10 @@ export const CodeEditorWrapper: React.FC<CodeEditorWrapperProps> = ({
         },
         options: {
           isWholeLine: true,
-          className: "bg-amber-950/40 border-l-4 border-amber-500",
-          glyphMarginClassName: "text-amber-400 font-bold",
+          className: "bg-[#332208]/50 border-l-2 border-[#d29922]",
+          glyphMarginClassName: "text-[#d29922] font-bold",
           hoverMessage: {
-            value: "**Conceptual Misconception Detected on Line " + line + "**\n\nTreating print() as if it delivers a return value.",
+            value: "**Conceptual Misconception on Line " + line + "**\n\nTreating `print()` as if it delivers a return value to caller variable.",
           },
         },
       }));
@@ -65,41 +65,41 @@ export const CodeEditorWrapper: React.FC<CodeEditorWrapperProps> = ({
   }, [highlightedLines]);
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117] border-t lg:border-t-0 lg:border-l border-slate-800 relative">
+    <div className="flex flex-col h-full bg-[#0a0d14] border-t lg:border-t-0 lg:border-l border-[#212734] relative select-none">
       {/* Editor Control Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#090d16] border-b border-slate-800 text-xs">
+      <div className="flex items-center justify-between px-3 py-2 bg-[#0c1017] border-b border-[#212734] text-xs">
         <div className="flex items-center gap-2">
-          <FileCode className="w-4 h-4 text-indigo-400" />
-          <span className="font-mono text-slate-300 font-semibold">solution.py</span>
-          <span className="text-[11px] text-slate-400 font-mono hidden sm:inline">
+          <FileCode className="w-3.5 h-3.5 text-[#8b949e]" />
+          <span className="font-mono text-[#f0f6fc] font-semibold text-xs">solution.py</span>
+          <span className="text-[10px] text-[#6e7681] font-mono hidden sm:inline">
             (Python 3.11 Runtime)
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {onLoadDemoCode && (
             <button
               onClick={onLoadDemoCode}
-              className="px-2 py-1 rounded text-[11px] font-mono text-amber-300 bg-amber-950/40 hover:bg-amber-900/50 border border-amber-800/60 transition-colors flex items-center gap-1"
+              className="px-2 py-0.5 rounded text-[11px] font-mono text-[#d29922] bg-[#231b09] hover:bg-[#34270d] border border-[#523f14] transition-colors flex items-center gap-1"
               title="Pre-seed demo code with Return vs Print mistake"
             >
-              <Sparkles className="w-3 h-3 text-amber-400" />
-              <span>Load Demo Code</span>
+              <Sparkles className="w-3 h-3 text-[#d29922]" />
+              <span>Load Flawed Code</span>
             </button>
           )}
 
           <button
             onClick={onReset}
-            className="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
-            title="Reset code to starter template"
+            className="p-1 rounded text-[#8b949e] hover:text-[#f0f6fc] hover:bg-[#161c26] border border-transparent hover:border-[#212734] transition-colors"
+            title="Reset code template"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* Editor Surface */}
-      <div className="flex-1 min-h-[300px] relative">
+      {/* Monaco Surface */}
+      <div className="flex-1 min-h-[280px] relative select-text">
         <Editor
           height="100%"
           defaultLanguage="python"
@@ -109,28 +109,28 @@ export const CodeEditorWrapper: React.FC<CodeEditorWrapperProps> = ({
           onMount={handleEditorDidMount}
           theme="vs-dark"
           options={{
-            fontSize: 14,
-            fontFamily: "'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace",
+            fontSize: 13,
+            fontFamily: "'JetBrains Mono', 'SF Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace",
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
             lineNumbers: "on",
             renderLineHighlight: "all",
-            lineDecorationsWidth: 10,
+            lineDecorationsWidth: 8,
             glyphMargin: true,
             tabSize: 4,
             insertSpaces: true,
             automaticLayout: true,
-            padding: { top: 12, bottom: 12 },
+            padding: { top: 10, bottom: 10 },
             bracketPairColorization: { enabled: true },
             overviewRulerBorder: false,
           }}
         />
 
-        {/* Floating Line 2 Error Marker Tag if line 2 is highlighted */}
+        {/* Floating Line 2 Error Marker Tag */}
         {highlightedLines.includes(2) && (
-          <div className="absolute top-[40px] right-4 z-10 animate-in fade-in slide-in-from-right-2 duration-300 pointer-events-none">
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-950/90 text-amber-300 border border-amber-600/80 shadow-lg shadow-black/80 font-mono text-[11px]">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+          <div className="absolute top-[34px] right-3 z-10 pointer-events-none">
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#231b09] text-[#d29922] border border-[#523f14] font-mono text-[10px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d29922]" />
               <span>Line 2: Conceptual Misconception</span>
             </div>
           </div>
@@ -138,33 +138,32 @@ export const CodeEditorWrapper: React.FC<CodeEditorWrapperProps> = ({
       </div>
 
       {/* Bottom Run Action Bar */}
-      <div className="p-3 bg-[#090d16] border-t border-slate-800 flex items-center justify-between">
-        <div className="text-[11px] text-slate-400 font-mono hidden sm:flex items-center gap-2">
-          <span>Shortcuts:</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+      <div className="p-2.5 bg-[#0c1017] border-t border-[#212734] flex items-center justify-between">
+        <div className="text-[10px] text-[#6e7681] font-mono hidden sm:flex items-center gap-1.5">
+          <span>Run:</span>
+          <kbd className="px-1.5 py-0.2 rounded bg-[#161b24] text-[#8b949e] border border-[#262e3d]">
             Ctrl+Enter
           </kbd>
-          <span>to run</span>
         </div>
 
         <div className="flex items-center gap-2 ml-auto">
           <button
             onClick={onRun}
             disabled={isRunning}
-            className={`px-4 py-2 rounded-lg font-semibold text-xs flex items-center gap-2 shadow-lg transition-all ${
+            className={`px-3.5 py-1.5 rounded font-mono font-semibold text-xs flex items-center gap-1.5 transition-colors ${
               isRunning
-                ? "bg-slate-800 text-slate-400 cursor-not-allowed"
-                : "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-950/50 hover:scale-[1.02] active:scale-[0.98]"
+                ? "bg-[#18202d] text-[#6e7681] border border-[#212734] cursor-not-allowed"
+                : "bg-[#238636] hover:bg-[#2ea043] text-[#ffffff] border border-[#2ea043]"
             }`}
           >
             {isRunning ? (
               <>
-                <div className="w-3.5 h-3.5 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
-                <span>Running Tests...</span>
+                <div className="w-3 h-3 border-2 border-[#8b949e] border-t-transparent rounded-full animate-spin" />
+                <span>Evaluating...</span>
               </>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 fill-current" />
+                <Play className="w-3 h-3 fill-current" />
                 <span>Run Code</span>
               </>
             )}
@@ -174,3 +173,4 @@ export const CodeEditorWrapper: React.FC<CodeEditorWrapperProps> = ({
     </div>
   );
 };
+

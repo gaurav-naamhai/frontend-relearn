@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "../common/Modal";
-import { ChevronRight, Compass } from "lucide-react";
+import { ChevronRight, Terminal } from "lucide-react";
 
 export interface DemoScene {
   step: number;
@@ -33,7 +33,7 @@ export const DEMO_SCENES: DemoScene[] = [
     title: "Scene 3: Line-Level Diagnosis & Misconception Detection",
     route: "/learn",
     summary: "Tests fail (stdout has 8, return value is None). Line 2 is decorated and highlighted. Diagnosis card detects 'Return vs Print' with 87% confidence.",
-    actionHint: "Notice how Re:Learn avoids generic 'Wrong Answer'. It pinpoints the exact line and underlying belief.",
+    actionHint: "Notice how Re:Learn pinpoints the exact line and underlying belief rather than generic 'Wrong Answer'.",
     actionButtonText: "Inspect Execution Trace (Scene 4)",
   },
   {
@@ -119,59 +119,59 @@ export const DemoTourGuide: React.FC<DemoTourGuideProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Re:Learn 3-Minute Demo Tour (Section 46)"
-      subtitle="Click through the exact 11 scenes to evaluate the full cognitive learning loop."
+      title="Re:Learn 3-Minute Interactive Demo Tour"
+      subtitle="Step-by-step presentation walkthrough of the cognitive learning loop."
       maxWidth="2xl"
     >
-      <div className="space-y-4 text-xs text-slate-200">
-        <div className="p-3.5 rounded-lg bg-gradient-to-r from-indigo-950/60 to-purple-950/60 border border-indigo-800/60 flex items-center justify-between">
+      <div className="space-y-3.5 text-xs text-[#c9d1d9]">
+        <div className="p-3 rounded bg-[#12161f] border border-[#212734] flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Compass className="w-4 h-4 text-indigo-400" />
-            <span className="font-semibold text-slate-100">
-              Interactive Presentation Navigator
+            <Terminal className="w-3.5 h-3.5 text-[#58a6ff]" />
+            <span className="font-semibold text-[#f0f6fc] font-mono text-[11px]">
+              Interactive Scenario Controller
             </span>
           </div>
-          <span className="font-mono text-xs text-indigo-300">
-            Scene {currentSceneIndex + 1} of {DEMO_SCENES.length}
+          <span className="font-mono text-[11px] text-[#8b949e]">
+            Scene {currentSceneIndex + 1} / {DEMO_SCENES.length}
           </span>
         </div>
 
         {/* Scene List */}
-        <div className="space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar pr-1">
+        <div className="space-y-1.5 max-h-[360px] overflow-y-auto custom-scrollbar pr-1">
           {DEMO_SCENES.map((scene, idx) => {
             const isCurrent = idx === currentSceneIndex;
             return (
               <div
                 key={scene.step}
                 onClick={() => onSelectScene(idx)}
-                className={`p-3 rounded-lg border text-left cursor-pointer transition-all ${
+                className={`p-3 rounded border text-left cursor-pointer transition-colors ${
                   isCurrent
-                    ? "bg-indigo-950/80 border-indigo-500 shadow-md shadow-indigo-950/60"
-                    : "bg-slate-950/80 border-slate-800 hover:border-slate-700 hover:bg-slate-900"
+                    ? "bg-[#161d28] border-[#388bfd]/60 text-[#f0f6fc]"
+                    : "bg-[#0e1218] border-[#212734] hover:border-[#303848] hover:bg-[#12161f] text-[#8b949e]"
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span
-                    className={`font-semibold text-xs ${
-                      isCurrent ? "text-indigo-300 font-bold" : "text-slate-200"
+                    className={`font-mono text-xs ${
+                      isCurrent ? "text-[#f0f6fc] font-bold" : "text-[#c9d1d9]"
                     }`}
                   >
                     {scene.title}
                   </span>
                   {isCurrent && (
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-600 text-white font-mono font-bold">
+                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#388bfd] text-white font-mono font-bold">
                       ACTIVE
                     </span>
                   )}
                 </div>
-                <p className="text-slate-400 text-[11px] leading-relaxed">
+                <p className="text-[#8b949e] text-[11px] leading-relaxed">
                   {scene.summary}
                 </p>
                 {isCurrent && (
-                  <div className="mt-2 pt-2 border-t border-indigo-900/60 flex items-center justify-between text-indigo-200 text-[11px]">
-                    <span>💡 {scene.actionHint}</span>
-                    <span className="font-bold flex items-center gap-1 text-white">
-                      Jump →
+                  <div className="mt-2 pt-2 border-t border-[#232c3d] flex items-center justify-between text-[#8b949e] text-[10px] font-mono">
+                    <span>Target: {scene.actionHint}</span>
+                    <span className="font-bold flex items-center gap-1 text-[#f0f6fc]">
+                      Execute →
                     </span>
                   </div>
                 )}
@@ -181,13 +181,13 @@ export const DemoTourGuide: React.FC<DemoTourGuideProps> = ({
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-3 border-t border-slate-800">
+        <div className="flex items-center justify-between pt-3 border-t border-[#212734]">
           <button
             onClick={() => onSelectScene(Math.max(0, currentSceneIndex - 1))}
             disabled={currentSceneIndex === 0}
-            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 font-medium text-xs text-slate-300 transition-colors"
+            className="px-3 py-1.5 rounded bg-[#161b24] hover:bg-[#1f2634] disabled:opacity-40 font-mono text-xs text-[#c9d1d9] border border-[#262e3d] transition-colors"
           >
-            ← Previous Scene
+            ← Previous
           </button>
 
           <button
@@ -198,7 +198,7 @@ export const DemoTourGuide: React.FC<DemoTourGuideProps> = ({
                 onClose();
               }
             }}
-            className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-indigo-950/50"
+            className="px-4 py-1.5 rounded bg-[#1e2736] hover:bg-[#273347] text-[#f0f6fc] font-mono font-semibold text-xs border border-[#37465f] flex items-center gap-1.5 transition-colors"
           >
             <span>{DEMO_SCENES[currentSceneIndex].actionButtonText}</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -208,3 +208,4 @@ export const DemoTourGuide: React.FC<DemoTourGuideProps> = ({
     </Modal>
   );
 };
+

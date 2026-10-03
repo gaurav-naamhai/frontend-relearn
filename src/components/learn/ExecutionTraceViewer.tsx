@@ -48,49 +48,49 @@ export const ExecutionTraceViewer: React.FC<ExecutionTraceViewerProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Interactive Execution Trace"
-      subtitle="Step through your program in memory to observe variables, output, and return flow."
+      title="Memory Frame & Execution Trace Stepper"
+      subtitle="Step through the Python runtime frame in memory to inspect variable scopes, stdout, and return flow."
       maxWidth="3xl"
     >
-      <div className="space-y-4 text-xs text-slate-200">
+      <div className="space-y-3.5 text-xs text-[#c9d1d9]">
         {/* Progress & Step Controls */}
-        <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-cyan-400">
-              Step {currentStepIndex + 1} of {traceSteps.length}
+        <div className="flex items-center justify-between p-2.5 rounded bg-[#12161f] border border-[#212734]">
+          <div className="flex items-center gap-2 font-mono">
+            <span className="text-xs font-bold text-[#58a6ff]">
+              Frame {currentStepIndex + 1} / {traceSteps.length}
             </span>
-            <span className="text-slate-500 font-mono">|</span>
-            <span className="text-slate-400 font-mono text-[11px]">
+            <span className="text-[#484f58]">|</span>
+            <span className="text-[#8b949e] text-[11px]">
               Executing Line {currentStep.line}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 font-mono">
             <button
               onClick={() => setCurrentStepIndex(0)}
-              className="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+              className="p-1 rounded text-[#8b949e] hover:text-[#f0f6fc] hover:bg-[#1a202c] transition-colors"
               title="Reset to step 1"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+              className="p-1 rounded text-[#8b949e] hover:text-[#f0f6fc] hover:bg-[#1a202c] transition-colors"
               title={isPlaying ? "Pause auto-step" : "Auto-play execution"}
             >
-              {isPlaying ? <Pause className="w-3.5 h-3.5 text-cyan-400" /> : <Play className="w-3.5 h-3.5" />}
+              {isPlaying ? <Pause className="w-3.5 h-3.5 text-[#58a6ff]" /> : <Play className="w-3.5 h-3.5" />}
             </button>
             <button
               onClick={() => setCurrentStepIndex((p) => Math.max(0, p - 1))}
               disabled={currentStepIndex === 0}
-              className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-xs flex items-center gap-1"
+              className="px-2.5 py-1 rounded bg-[#161b24] hover:bg-[#1f2634] disabled:opacity-40 font-medium text-xs flex items-center gap-1 border border-[#262e3d]"
             >
               <ChevronLeft className="w-3.5 h-3.5" /> Prev
             </button>
             <button
               onClick={() => setCurrentStepIndex((p) => Math.min(traceSteps.length - 1, p + 1))}
               disabled={currentStepIndex === traceSteps.length - 1}
-              className="px-2.5 py-1 rounded bg-cyan-600 hover:bg-cyan-500 text-white disabled:opacity-40 disabled:cursor-not-allowed font-medium text-xs flex items-center gap-1 shadow-md shadow-cyan-950/40"
+              className="px-2.5 py-1 rounded bg-[#1e2736] hover:bg-[#273347] text-[#f0f6fc] disabled:opacity-40 font-medium text-xs flex items-center gap-1 border border-[#37465f]"
             >
               Next <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -98,61 +98,61 @@ export const ExecutionTraceViewer: React.FC<ExecutionTraceViewerProps> = ({
         </div>
 
         {/* Stepper Progress Bar */}
-        <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+        <div className="w-full bg-[#12161f] h-1 rounded-sm overflow-hidden border border-[#212734]">
           <div
-            className="bg-cyan-400 h-full transition-all duration-300"
+            className="bg-[#58a6ff] h-full rounded-sm transition-all duration-300"
             style={{ width: `${((currentStepIndex + 1) / traceSteps.length) * 100}%` }}
           />
         </div>
 
-        {/* Current Active Code & Explanation */}
+        {/* Current Active Code & Stack Variables */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* Code Line Highlight */}
-          <div className="p-3.5 rounded-xl bg-black/90 border border-slate-800 space-y-2 font-mono">
-            <div className="text-[10px] text-slate-500 uppercase tracking-wider">
-              Active Instruction (Line {currentStep.line})
+          <div className="p-3 rounded bg-[#090d13] border border-[#212734] space-y-2 font-mono">
+            <div className="text-[10px] text-[#6e7681] uppercase tracking-wider">
+              Instruction At Line {currentStep.line}
             </div>
-            <div className="p-2.5 rounded bg-slate-900/90 border border-cyan-500/50 text-cyan-300 text-sm font-semibold">
+            <div className="p-2 rounded bg-[#12161f] border border-[#262e3d] text-[#58a6ff] text-xs font-semibold">
               <code>{currentStep.code}</code>
             </div>
-            <div className="text-slate-300 font-sans text-xs leading-relaxed pt-1">
+            <div className="text-[#8b949e] font-sans text-xs leading-relaxed pt-1">
               {currentStep.explanation}
             </div>
           </div>
 
           {/* Environment Stack & Variables */}
-          <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-3">
-            <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase tracking-wider font-mono">
+          <div className="p-3 rounded bg-[#0e1218] border border-[#212734] space-y-2.5">
+            <div className="flex items-center justify-between text-[10px] text-[#8b949e] uppercase tracking-wider font-mono">
               <span className="flex items-center gap-1">
-                <Layers className="w-3 h-3 text-cyan-400" />
+                <Layers className="w-3 h-3 text-[#58a6ff]" />
                 Variable Memory Frame
               </span>
-              <span className="text-slate-500">add() scope</span>
+              <span className="text-[#6e7681]">add() scope</span>
             </div>
 
-            <div className="space-y-1.5 font-mono text-xs">
+            <div className="space-y-1 font-mono text-xs">
               {Object.entries(currentStep.variables).map(([name, val]) => (
                 <div
                   key={name}
-                  className="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-800/80"
+                  className="flex items-center justify-between p-1.5 rounded bg-[#12161f] border border-[#212734]"
                 >
-                  <span className="text-indigo-300 font-semibold">{name}</span>
-                  <span className="text-slate-200">{String(val)}</span>
+                  <span className="text-[#8b949e]">{name}</span>
+                  <span className="text-[#f0f6fc]">{String(val)}</span>
                 </div>
               ))}
             </div>
 
             {/* Special Highlight: Return Value vs Stdout */}
-            <div className="pt-2 border-t border-slate-800 space-y-2">
-              <div className="flex items-center justify-between p-2 rounded bg-amber-950/30 border border-amber-800/50">
-                <span className="text-amber-300 font-semibold">Terminal Stdout:</span>
-                <span className="font-mono font-bold text-amber-200">
+            <div className="pt-1.5 border-t border-[#212734] space-y-1.5 font-mono text-xs">
+              <div className="flex items-center justify-between p-1.5 rounded bg-[#181308] border border-[#3e2e0e]">
+                <span className="text-[#d29922]">Terminal Stdout:</span>
+                <span className="font-bold text-[#e3b341]">
                   {currentStep.stdout ? `"${currentStep.stdout}"` : "(none)"}
                 </span>
               </div>
-              <div className="flex items-center justify-between p-2 rounded bg-rose-950/30 border border-rose-800/50">
-                <span className="text-rose-300 font-semibold">Caller Return Value:</span>
-                <span className="font-mono font-bold text-rose-300">
+              <div className="flex items-center justify-between p-1.5 rounded bg-[#1f0e12] border border-[#4a1c22]">
+                <span className="text-[#f85149]">Caller Return Value:</span>
+                <span className="font-bold text-[#f85149]">
                   {currentStep.returnValue || "None (Default)"}
                 </span>
               </div>
@@ -161,10 +161,10 @@ export const ExecutionTraceViewer: React.FC<ExecutionTraceViewerProps> = ({
         </div>
 
         {/* Insight note */}
-        <div className="p-3 rounded-lg bg-indigo-950/30 border border-indigo-800/40 text-[11px] text-indigo-200 leading-relaxed">
-          <span className="font-bold text-indigo-300 mr-1">Trace Revelation:</span>
-          Notice that while the terminal output printed 8, the function completed without returning anything.
-          Python assigned <code className="bg-slate-900 px-1 py-0.5 rounded font-mono text-amber-300">None</code> to the caller variable.
+        <div className="p-2.5 rounded bg-[#12161f] border border-[#212734] text-[11px] text-[#8b949e] leading-relaxed">
+          <span className="font-bold text-[#f0f6fc] mr-1 font-mono">Trace Insight:</span>
+          While stdout printed <code className="bg-[#161b24] px-1 py-0.2 rounded font-mono text-[#e3b341]">8</code>, the function exited without returning anything.
+          Python handed <code className="bg-[#161b24] px-1 py-0.2 rounded font-mono text-[#f85149]">None</code> to the caller scope.
         </div>
       </div>
     </Modal>

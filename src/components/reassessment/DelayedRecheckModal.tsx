@@ -34,13 +34,12 @@ export const DelayedRecheckModal: React.FC<DelayedRecheckModalProps> = ({
     setPassed(correct);
 
     if (correct) {
-      // Subtle victory celebration
       try {
         confetti({
-          particleCount: 50,
-          spread: 60,
+          particleCount: 30,
+          spread: 45,
           origin: { y: 0.7 },
-          colors: ["#10B981", "#6366F1", "#8B5CF6"],
+          colors: ["#2ea043", "#58a6ff", "#f0f6fc"],
         });
       } catch (_err) {
         // ignore
@@ -57,37 +56,37 @@ export const DelayedRecheckModal: React.FC<DelayedRecheckModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Delayed Knowledge Re-Check"
-      subtitle="Ensuring long-term cognitive retention after initial mastery."
+      title="Spaced Knowledge Retention Check"
+      subtitle="Verifying long-term cognitive consolidation in memory."
       maxWidth="lg"
     >
-      <div className="space-y-4 text-xs text-slate-200">
-        <div className="p-3 rounded-lg bg-indigo-950/40 border border-indigo-800/60 flex items-center gap-2 text-indigo-300">
-          <Clock className="w-4 h-4 text-indigo-400 shrink-0" />
-          <span>It's been a while. Let's verify this concept remains consolidated in memory.</span>
+      <div className="space-y-3.5 text-xs text-[#c9d1d9] select-none">
+        <div className="p-2.5 rounded bg-[#12161f] border border-[#212734] flex items-center gap-2 text-[#8b949e]">
+          <Clock className="w-3.5 h-3.5 text-[#58a6ff] shrink-0" />
+          <span>Verifying whether this mental model remains sound over time.</span>
         </div>
 
-        <div className="p-4 rounded-xl bg-black/80 border border-slate-800 font-mono text-center text-sm text-amber-300">
+        <div className="p-3 rounded bg-[#090d13] border border-[#212734] font-mono text-center text-xs sm:text-sm text-[#d29922]">
           <code>def calculate_bonus(salary):{"\n"}    print(salary * 0.1)</code>
         </div>
 
-        <div className="font-semibold text-sm text-slate-100">
+        <div className="font-semibold text-xs text-[#f0f6fc] font-mono">
           What does <code>calculate_bonus(50000)</code> hand back to its caller?
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5 font-mono">
           {options.map((opt, idx) => {
             const isSelected = selectedIdx === idx;
-            let style = "bg-slate-900 border-slate-800 hover:border-slate-700";
+            let style = "bg-[#0e1218] border-[#212734] hover:border-[#303848] text-[#c9d1d9]";
 
             if (isSelected) {
-              style = "bg-indigo-950/80 border-indigo-500 text-indigo-200";
+              style = "bg-[#161d28] border-[#388bfd] text-[#f0f6fc]";
             }
             if (isSubmitted) {
               if (opt.isCorrect) {
-                style = "bg-emerald-950/80 border-emerald-500 text-emerald-200";
+                style = "bg-[#0c2013] border-[#2ea043] text-[#3fb950]";
               } else if (isSelected && !opt.isCorrect) {
-                style = "bg-rose-950/80 border-rose-500 text-rose-200";
+                style = "bg-[#261114] border-[#f85149] text-[#f85149]";
               }
             }
 
@@ -96,9 +95,9 @@ export const DelayedRecheckModal: React.FC<DelayedRecheckModalProps> = ({
                 key={idx}
                 onClick={() => !isSubmitted && setSelectedIdx(idx)}
                 disabled={isSubmitted}
-                className={`w-full p-3 rounded-lg border text-left font-mono text-xs flex items-center gap-3 transition-colors ${style}`}
+                className={`w-full p-2.5 rounded border text-left text-xs flex items-center gap-2.5 transition-colors ${style}`}
               >
-                <span className="w-5 h-5 rounded bg-slate-800 flex items-center justify-center font-bold text-[10px] text-slate-400">
+                <span className="w-5 h-5 rounded bg-[#161b24] border border-[#262e3d] flex items-center justify-center font-bold text-[10px] text-[#8b949e]">
                   {opt.label}
                 </span>
                 <span>{opt.text}</span>
@@ -109,48 +108,48 @@ export const DelayedRecheckModal: React.FC<DelayedRecheckModalProps> = ({
 
         {isSubmitted && (
           <div
-            className={`p-3.5 rounded-xl border space-y-1 animate-in fade-in duration-300 ${
+            className={`p-3 rounded border space-y-1 ${
               passed
-                ? "bg-emerald-950/40 border-emerald-700/80 text-emerald-200"
-                : "bg-rose-950/40 border-rose-700/80 text-rose-200"
+                ? "bg-[#0c2013] border-[#1e4a29] text-[#3fb950]"
+                : "bg-[#261114] border-[#542227] text-[#f85149]"
             }`}
           >
-            <div className="flex items-center gap-2 font-bold text-xs">
+            <div className="flex items-center gap-2 font-bold font-mono text-xs">
               {passed ? (
                 <>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-[#3fb950]" />
                   <span>Misconception Permanently Resolved</span>
                 </>
               ) : (
                 <>
-                  <AlertTriangle className="w-4 h-4 text-rose-400" />
-                  <span>Concept Needs Further Practice</span>
+                  <AlertTriangle className="w-4 h-4 text-[#f85149]" />
+                  <span>Concept Requires Additional Transfer Practice</span>
                 </>
               )}
             </div>
-            <p className="text-xs">
+            <p className="text-xs text-[#c9d1d9] leading-relaxed">
               {passed
-                ? `Outstanding! You remembered that print() returns None. '${misconceptionName}' has been officially graduated to Resolved in your learner model.`
-                : "The return statement was omitted, meaning None was handed back. We will schedule an extra practice challenge."}
+                ? `Confirmed: print() outputs to terminal and returns None. '${misconceptionName}' is graduated to Resolved in your learner profile.`
+                : "The return statement was omitted, returning None to caller variable. An extra transfer challenge will be scheduled."}
             </p>
           </div>
         )}
 
-        <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
+        <div className="flex justify-end gap-2 pt-2.5 border-t border-[#212734] font-mono">
           {!isSubmitted ? (
             <button
               onClick={handleSubmit}
               disabled={selectedIdx === null}
-              className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white font-semibold text-xs transition-colors"
+              className="px-3.5 py-1.5 rounded bg-[#238636] hover:bg-[#2ea043] disabled:opacity-40 text-white font-semibold text-xs border border-[#2ea043] transition-colors"
             >
               Verify Memory
             </button>
           ) : (
             <button
               onClick={handleFinish}
-              className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors shadow-md shadow-emerald-950/50"
+              className="px-3.5 py-1.5 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-semibold text-xs border border-[#2ea043] transition-colors"
             >
-              Update Learner Profile & Return
+              Update Profile & Close
             </button>
           )}
         </div>

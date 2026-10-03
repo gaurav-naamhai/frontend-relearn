@@ -8,64 +8,65 @@ interface SkillBarProps {
 
 export const SkillBar: React.FC<SkillBarProps> = ({ skill, onClick }) => {
   // Determine color based on percentage
-  let barColor = "bg-rose-500";
+  let barColor = "bg-[#f85149]";
   let statusText = "Needs Attention";
-  let statusBadge = "text-rose-400 bg-rose-950/40 border-rose-800/50";
+  let statusBadge = "text-[#f85149] bg-[#261114] border-[#542227]";
 
   if (skill.masteryPercentage >= 85) {
-    barColor = "bg-emerald-400";
+    barColor = "bg-[#2ea043]";
     statusText = "Mastered";
-    statusBadge = "text-emerald-400 bg-emerald-950/40 border-emerald-800/50";
+    statusBadge = "text-[#3fb950] bg-[#0c2013] border-[#1e4a29]";
   } else if (skill.masteryPercentage >= 70) {
-    barColor = "bg-teal-400";
+    barColor = "bg-[#388bfd]";
     statusText = "Proficient";
-    statusBadge = "text-teal-400 bg-teal-950/40 border-teal-800/50";
+    statusBadge = "text-[#58a6ff] bg-[#0e1b2e] border-[#1f3b60]";
   } else if (skill.masteryPercentage >= 55) {
-    barColor = "bg-amber-400";
+    barColor = "bg-[#d29922]";
     statusText = "Developing";
-    statusBadge = "text-amber-400 bg-amber-950/40 border-amber-800/50";
+    statusBadge = "text-[#d29922] bg-[#231b09] border-[#523f14]";
   }
 
   return (
     <div
       onClick={onClick}
-      className={`p-3 rounded-lg bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-all duration-200 ${
-        onClick ? "cursor-pointer hover:bg-slate-800/50" : ""
+      className={`p-2.5 rounded bg-[#0e1218] border border-[#212734] hover:border-[#303848] transition-colors ${
+        onClick ? "cursor-pointer hover:bg-[#131722]" : ""
       }`}
     >
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-center gap-2">
-          <span className="font-medium text-sm text-slate-200">{skill.concept}</span>
-          <span className={`text-[10px] px-1.5 py-0.5 rounded border font-mono ${statusBadge}`}>
+          <span className="font-medium text-xs text-[#f0f6fc]">{skill.concept}</span>
+          <span className={`text-[10px] px-1.5 py-0.2 rounded border font-mono ${statusBadge}`}>
             {statusText}
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-mono text-xs">
           {skill.trend && (
             <span
-              className={`text-xs font-mono ${
+              className={`text-[11px] ${
                 skill.trend.startsWith("+")
-                  ? "text-emerald-400"
+                  ? "text-[#3fb950]"
                   : skill.trend.startsWith("-")
-                  ? "text-rose-400"
-                  : "text-slate-400"
+                  ? "text-[#f85149]"
+                  : "text-[#8b949e]"
               }`}
             >
               {skill.trend}
             </span>
           )}
-          <span className="font-mono text-xs font-bold text-slate-100">
+          <span className="font-bold text-[#f0f6fc]">
             {skill.masteryPercentage}%
           </span>
         </div>
       </div>
 
-      <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800/60">
+      <div className="w-full bg-[#090d13] rounded-sm h-1.5 overflow-hidden border border-[#1e2533]">
         <div
-          className={`h-full rounded-full transition-all duration-700 ease-out ${barColor}`}
+          className={`h-full rounded-sm transition-all duration-500 ease-out ${barColor}`}
           style={{ width: `${skill.masteryPercentage}%` }}
         />
       </div>
     </div>
   );
 };
+

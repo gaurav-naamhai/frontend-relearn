@@ -33,138 +33,138 @@ export const DiagnosisCard: React.FC<DiagnosisCardProps> = ({
   const [isWhyOpen, setIsWhyOpen] = useState(false);
 
   return (
-    <div className="rounded-xl border border-amber-500/40 bg-gradient-to-b from-[#1c1815] to-[#121620] p-4 text-xs text-slate-200 shadow-xl shadow-black/50 space-y-3.5 animate-in fade-in duration-300">
+    <div className="rounded border border-[#523f14] bg-[#0c1017] p-3.5 text-xs text-[#c9d1d9] space-y-3 select-none">
       {/* Header */}
-      <div className="flex items-start justify-between gap-2 border-b border-amber-900/40 pb-3">
+      <div className="flex items-start justify-between gap-2 border-b border-[#212734] pb-2.5">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Badge type={diagnosis.errorType} label="Conceptual Misconception" />
-            <span className="font-mono text-[11px] text-amber-400 font-semibold">
+            <span className="font-mono text-[11px] text-[#d29922] font-semibold">
               Line {diagnosis.affectedLines.join(", ")}
             </span>
           </div>
-          <h4 className="text-base font-bold text-slate-100 flex items-center gap-1.5">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+          <h4 className="text-sm font-bold text-[#f0f6fc] font-mono flex items-center gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5 text-[#d29922] shrink-0" />
             {diagnosis.primaryMisconceptionName}
           </h4>
         </div>
 
         <div className="text-right">
-          <div className="text-[10px] text-slate-400 font-mono">AI Confidence</div>
-          <div className="text-sm font-mono font-bold text-amber-400">
+          <div className="text-[10px] text-[#6e7681] font-mono">Confidence</div>
+          <div className="text-xs font-mono font-bold text-[#d29922]">
             {diagnosis.confidence}%
           </div>
         </div>
       </div>
 
       {/* Code Snippet Highlight */}
-      <div className="p-2.5 rounded-lg bg-black/60 border border-slate-800 font-mono text-[11px] text-amber-300 flex items-center justify-between">
+      <div className="p-2 rounded bg-[#090d13] border border-[#212734] font-mono text-[11px] text-[#d29922] flex items-center justify-between">
         <span>Line {diagnosis.affectedLines[0] || 2}: {diagnosis.faultyCodeSnippet}</span>
-        <span className="text-[10px] text-slate-400 font-sans">Faulty mental model</span>
+        <span className="text-[10px] text-[#6e7681] font-sans">Faulty mental model</span>
       </div>
 
       {/* What Happened */}
-      <div className="space-y-1">
-        <span className="text-slate-400 font-semibold text-[11px] uppercase tracking-wider block font-mono">
-          What Happened
+      <div className="space-y-0.5">
+        <span className="text-[#8b949e] font-semibold text-[10px] uppercase tracking-wider block font-mono">
+          Observed Execution
         </span>
-        <p className="text-slate-200 leading-relaxed text-xs">
+        <p className="text-[#c9d1d9] leading-relaxed text-xs">
           {diagnosis.whatHappened}
         </p>
       </div>
 
       {/* Why (The Underlying Misconception) */}
-      <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-900/50 space-y-1">
-        <span className="text-amber-300 font-semibold text-[11px] uppercase tracking-wider block font-mono flex items-center gap-1">
-          <Brain className="w-3.5 h-3.5 text-amber-400" />
-          The Underlying Misconception
+      <div className="p-2.5 rounded bg-[#181308] border border-[#3e2e0e] space-y-1">
+        <span className="text-[#d29922] font-semibold text-[10px] uppercase tracking-wider block font-mono flex items-center gap-1">
+          <Brain className="w-3 h-3 text-[#d29922]" />
+          Underlying Mental Model
         </span>
-        <p className="text-slate-300 leading-relaxed text-xs">
+        <p className="text-[#c9d1d9] leading-relaxed text-xs">
           {diagnosis.whyHappened}
         </p>
       </div>
 
       {/* Mental Model Fix */}
-      <div className="p-3 rounded-lg bg-indigo-950/30 border border-indigo-900/50 space-y-1">
-        <span className="text-indigo-300 font-semibold text-[11px] uppercase tracking-wider block font-mono">
-          How to think about it:
+      <div className="p-2.5 rounded bg-[#0e1624] border border-[#1d2d47] space-y-1">
+        <span className="text-[#58a6ff] font-semibold text-[10px] uppercase tracking-wider block font-mono">
+          Conceptual Correction:
         </span>
-        <p className="text-slate-300 leading-relaxed text-xs">
+        <p className="text-[#c9d1d9] leading-relaxed text-xs">
           {diagnosis.mentalModelFix}
         </p>
       </div>
 
-      {/* Expandable "Why We Think This" (Section 16) */}
-      <div className="pt-1">
+      {/* Expandable Confidence Breakdown */}
+      <div className="pt-0.5">
         <button
           onClick={() => setIsWhyOpen(!isWhyOpen)}
-          className="w-full flex items-center justify-between py-1.5 text-slate-400 hover:text-slate-200 font-mono text-[11px] border-t border-slate-800 transition-colors"
+          className="w-full flex items-center justify-between py-1 text-[#8b949e] hover:text-[#f0f6fc] font-mono text-[10px] border-t border-[#212734] transition-colors"
         >
           <span className="flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-indigo-400" />
-            Why we think this (Confidence Breakdown)
+            <Layers className="w-3 h-3 text-[#8b949e]" />
+            Hypothesis Distribution (Probabilistic Breakdown)
           </span>
-          {isWhyOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          {isWhyOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3 text-[#8b949e]" />}
         </button>
 
         {isWhyOpen && (
-          <div className="mt-2 space-y-2 p-2.5 rounded-lg bg-black/40 border border-slate-800/80 animate-in fade-in duration-200">
+          <div className="mt-1.5 space-y-2 p-2.5 rounded bg-[#090d13] border border-[#212734]">
             {diagnosis.topAlternatives.map((alt) => (
               <div key={alt.misconceptionId} className="space-y-1">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="font-semibold text-slate-200 font-mono">
+                <div className="flex items-center justify-between text-[10px]">
+                  <span className="font-semibold text-[#c9d1d9] font-mono">
                     {alt.misconceptionName}
                   </span>
-                  <span className="font-mono font-bold text-indigo-300">
+                  <span className="font-mono font-bold text-[#8b949e]">
                     {alt.confidence}%
                   </span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[#161b24] h-1 rounded-sm overflow-hidden">
                   <div
-                    className="bg-indigo-500 h-full rounded-full"
+                    className="bg-[#3b465c] h-full rounded-sm"
                     style={{ width: `${alt.confidence}%` }}
                   />
                 </div>
-                <p className="text-[10px] text-slate-400">{alt.reason}</p>
+                <p className="text-[10px] text-[#6e7681]">{alt.reason}</p>
               </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Action Buttons (Section 40) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+      {/* Action Buttons */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1 font-mono">
         <button
           onClick={onOpenProbe}
-          className={`px-3 py-2 rounded-lg font-medium text-xs flex items-center justify-center gap-1.5 border transition-all ${
+          className={`px-2.5 py-1.5 rounded font-medium text-xs flex items-center justify-center gap-1.5 border transition-colors ${
             hasAnsweredProbe
-              ? "bg-slate-800/80 text-emerald-300 border-emerald-800/60"
-              : "bg-indigo-950/70 hover:bg-indigo-900/80 text-indigo-200 border-indigo-700/80 animate-pulse"
+              ? "bg-[#0c2013] text-[#3fb950] border-[#1e4a29]"
+              : "bg-[#141922] hover:bg-[#1a212e] text-[#58a6ff] border-[#262e3d]"
           }`}
         >
-          <HelpCircle className="w-3.5 h-3.5 text-indigo-400" />
-          <span>{hasAnsweredProbe ? "✓ Probe Answered (94%)" : "Answer Probe Question"}</span>
+          <HelpCircle className="w-3.5 h-3.5 text-[#58a6ff]" />
+          <span>{hasAnsweredProbe ? "✓ Probe Answered (94%)" : "Answer Probe"}</span>
         </button>
 
         <button
           onClick={onOpenTrace}
-          className="px-3 py-2 rounded-lg font-medium text-xs flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700/80 text-slate-200 border border-slate-700 transition-colors"
+          className="px-2.5 py-1.5 rounded font-medium text-xs flex items-center justify-center gap-1.5 bg-[#141922] hover:bg-[#1a212e] text-[#c9d1d9] border border-[#262e3d] transition-colors"
         >
-          <Activity className="w-3.5 h-3.5 text-cyan-400" />
-          <span>See Execution Trace</span>
+          <Activity className="w-3.5 h-3.5 text-[#8b949e]" />
+          <span>Execution Trace</span>
         </button>
 
         <button
           onClick={onScrollToChat}
-          className="px-3 py-2 rounded-lg font-medium text-xs flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-700/80 text-slate-200 border border-slate-700 transition-colors"
+          className="px-2.5 py-1.5 rounded font-medium text-xs flex items-center justify-center gap-1.5 bg-[#141922] hover:bg-[#1a212e] text-[#c9d1d9] border border-[#262e3d] transition-colors"
         >
-          <MessageSquare className="w-3.5 h-3.5 text-purple-400" />
+          <MessageSquare className="w-3.5 h-3.5 text-[#8b949e]" />
           <span>Ask Re:Learn</span>
         </button>
 
         <button
           onClick={onStartReassessment}
-          className="px-3 py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-950/50 transition-colors"
+          className="px-2.5 py-1.5 rounded font-bold text-xs flex items-center justify-center gap-1.5 bg-[#238636] hover:bg-[#2ea043] text-white border border-[#2ea043] transition-colors"
         >
           <span>Practice Concept</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -173,3 +173,4 @@ export const DiagnosisCard: React.FC<DiagnosisCardProps> = ({
     </div>
   );
 };
+

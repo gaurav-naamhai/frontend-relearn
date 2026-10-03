@@ -17,47 +17,47 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ events, problems }) =>
   const [inspectedProblem, setInspectedProblem] = useState<ProblemHistoryRecord | null>(null);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6 text-slate-200">
+    <div className="p-5 max-w-5xl mx-auto space-y-5 text-[#c9d1d9] select-none">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Learning & Submission History
+          <h1 className="text-lg sm:text-xl font-bold text-[#f0f6fc] font-mono tracking-tight">
+            Learning & Submission Audit Log
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Audit trail of code attempts, detected misconceptions, and cognitive breakthroughs.
+          <p className="text-xs text-[#8b949e]">
+            Complete audit trail of execution attempts, diagnosed misconceptions, and transfer validations.
           </p>
         </div>
 
         {/* Tab switch */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono">
+        <div className="flex items-center gap-1 p-0.5 rounded bg-[#0e1218] border border-[#212734] text-xs font-mono">
           <button
             onClick={() => setActiveTab("timeline")}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${
+            className={`px-2.5 py-1 rounded transition-colors ${
               activeTab === "timeline"
-                ? "bg-indigo-600 text-white font-bold"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#18202d] text-[#f0f6fc] border border-[#2d384c] font-semibold"
+                : "text-[#8b949e] hover:text-[#f0f6fc]"
             }`}
           >
-            Learning Timeline
+            Timeline Log
           </button>
           <button
             onClick={() => setActiveTab("problems")}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${
+            className={`px-2.5 py-1 rounded transition-colors ${
               activeTab === "problems"
-                ? "bg-indigo-600 text-white font-bold"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#18202d] text-[#f0f6fc] border border-[#2d384c] font-semibold"
+                : "text-[#8b949e] hover:text-[#f0f6fc]"
             }`}
           >
-            Problem Submissions ({problems.length})
+            Submissions ({problems.length})
           </button>
         </div>
       </div>
 
-      {/* TAB 1: TIMELINE (Section 28) */}
+      {/* TAB 1: TIMELINE */}
       {activeTab === "timeline" && (
-        <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-6">
-          <div className="relative border-l border-slate-800 ml-4 space-y-6">
+        <div className="p-4 rounded bg-[#0e1218] border border-[#212734] space-y-4">
+          <div className="relative border-l border-[#212734] ml-3 space-y-4">
             {events.map((evt, idx) => {
               const isSuccess =
                 evt.type.includes("resolved") ||
@@ -65,34 +65,34 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ events, problems }) =>
                 evt.type.includes("passed");
 
               return (
-                <div key={evt.id || idx} className="relative pl-6">
+                <div key={evt.id || idx} className="relative pl-5">
                   {/* Dot */}
                   <div
-                    className={`absolute -left-2.5 top-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                    className={`absolute -left-2 top-1 w-4 h-4 rounded-full border flex items-center justify-center ${
                       isSuccess
-                        ? "bg-emerald-950 border-emerald-500 text-emerald-400"
-                        : "bg-amber-950 border-amber-500 text-amber-400"
+                        ? "bg-[#0c2013] border-[#2ea043] text-[#3fb950]"
+                        : "bg-[#231b09] border-[#d29922] text-[#d29922]"
                     }`}
                   >
                     {isSuccess ? (
-                      <CheckCircle2 className="w-3 h-3" />
+                      <CheckCircle2 className="w-2.5 h-2.5" />
                     ) : (
-                      <AlertTriangle className="w-3 h-3" />
+                      <AlertTriangle className="w-2.5 h-2.5" />
                     )}
                   </div>
 
-                  <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-850 space-y-1.5 hover:border-slate-700 transition-colors">
+                  <div className="p-3 rounded bg-[#090d13] border border-[#1e2533] space-y-1 hover:border-[#303848] transition-colors">
                     <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="font-bold text-slate-200">{evt.title}</span>
-                      <span className="text-slate-500 text-[11px]">{evt.date}</span>
+                      <span className="font-bold text-[#f0f6fc]">{evt.title}</span>
+                      <span className="text-[#6e7681] text-[10px]">{evt.date}</span>
                     </div>
 
-                    <p className="text-xs text-slate-300 leading-relaxed">
+                    <p className="text-xs text-[#8b949e] leading-relaxed">
                       {evt.detail}
                     </p>
 
-                    <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-indigo-400">
-                      <span>Concept: {evt.relatedConcept}</span>
+                    <div className="flex items-center gap-2 pt-0.5 text-[10px] font-mono text-[#8b949e]">
+                      <span>Concept: <strong className="text-[#c9d1d9]">{evt.relatedConcept}</strong></span>
                     </div>
                   </div>
                 </div>
@@ -102,55 +102,55 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ events, problems }) =>
         </div>
       )}
 
-      {/* TAB 2: PROBLEM TABLE (Section 29) */}
+      {/* TAB 2: PROBLEM TABLE */}
       {activeTab === "problems" && (
-        <div className="rounded-2xl bg-slate-900/80 border border-slate-800 overflow-hidden text-xs">
+        <div className="rounded bg-[#0e1218] border border-[#212734] overflow-hidden text-xs">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 bg-slate-950/80 font-mono text-slate-400 text-[11px] uppercase tracking-wider">
-                  <th className="p-4">Problem</th>
-                  <th className="p-4">Concept</th>
-                  <th className="p-4">Result</th>
-                  <th className="p-4">Attempts</th>
-                  <th className="p-4">Date</th>
-                  <th className="p-4 text-right">Actions</th>
+                <tr className="border-b border-[#212734] bg-[#0c1017] font-mono text-[#8b949e] text-[10px] uppercase tracking-wider">
+                  <th className="p-3">Problem</th>
+                  <th className="p-3">Concept</th>
+                  <th className="p-3">Result</th>
+                  <th className="p-3">Attempts</th>
+                  <th className="p-3">Date</th>
+                  <th className="p-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 font-mono">
+              <tbody className="divide-y divide-[#1c2330] font-mono">
                 {problems.map((p) => (
                   <tr
                     key={p.id}
-                    className="hover:bg-slate-850/50 transition-colors group cursor-pointer"
+                    className="hover:bg-[#12161f] transition-colors cursor-pointer"
                     onClick={() => setInspectedProblem(p)}
                   >
-                    <td className="p-4 font-semibold text-slate-100 flex items-center gap-2">
-                      <FileCode className="w-4 h-4 text-indigo-400 shrink-0" />
+                    <td className="p-3 font-semibold text-[#f0f6fc] flex items-center gap-1.5">
+                      <FileCode className="w-3.5 h-3.5 text-[#8b949e] shrink-0" />
                       <span>{p.problemTitle}</span>
                     </td>
-                    <td className="p-4 text-slate-300">{p.concept}</td>
-                    <td className="p-4">
+                    <td className="p-3 text-[#8b949e]">{p.concept}</td>
+                    <td className="p-3">
                       {p.result === "correct" ? (
-                        <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Correct
+                        <span className="text-[#3fb950] font-semibold flex items-center gap-1 text-[11px]">
+                          <CheckCircle2 className="w-3 h-3" /> Correct
                         </span>
                       ) : (
-                        <span className="text-amber-400 font-semibold flex items-center gap-1">
-                          <AlertTriangle className="w-3.5 h-3.5" /> Diagnosed
+                        <span className="text-[#d29922] font-semibold flex items-center gap-1 text-[11px]">
+                          <AlertTriangle className="w-3 h-3" /> Diagnosed
                         </span>
                       )}
                     </td>
-                    <td className="p-4 text-slate-400">{p.attempts} attempt(s)</td>
-                    <td className="p-4 text-slate-500 text-[11px]">{p.date}</td>
-                    <td className="p-4 text-right">
+                    <td className="p-3 text-[#8b949e]">{p.attempts} att.</td>
+                    <td className="p-3 text-[#6e7681] text-[11px]">{p.date}</td>
+                    <td className="p-3 text-right">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           setInspectedProblem(p);
                         }}
-                        className="text-indigo-400 hover:text-indigo-300 text-xs font-sans font-semibold"
+                        className="text-[#58a6ff] hover:text-[#79b8ff] text-xs font-mono"
                       >
-                        Inspect Code →
+                        Inspect →
                       </button>
                     </td>
                   </tr>
@@ -161,7 +161,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ events, problems }) =>
         </div>
       )}
 
-      {/* Inspect Code Modal (Section 29) */}
+      {/* Inspect Code Modal */}
       {inspectedProblem && (
         <Modal
           isOpen={true}
@@ -170,47 +170,46 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ events, problems }) =>
           subtitle={`Concept: ${inspectedProblem.concept} • Attempts: ${inspectedProblem.attempts}`}
           maxWidth="2xl"
         >
-          <div className="space-y-4 text-xs text-slate-200">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className="font-mono text-slate-400">
+          <div className="space-y-3 text-xs text-[#c9d1d9]">
+            <div className="flex items-center justify-between pb-2 border-b border-[#212734] font-mono">
+              <span className="text-[#8b949e]">
                 Status:{" "}
                 <span
                   className={
                     inspectedProblem.result === "correct"
-                      ? "text-emerald-400 font-bold"
-                      : "text-amber-400 font-bold"
+                      ? "text-[#3fb950] font-bold"
+                      : "text-[#d29922] font-bold"
                   }
                 >
                   {inspectedProblem.result.toUpperCase()}
                 </span>
               </span>
               {inspectedProblem.diagnosedMisconception && (
-                <span className="text-amber-400 font-mono text-[11px] bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800">
+                <span className="text-[#d29922] text-[10px] bg-[#231b09] px-2 py-0.5 rounded border border-[#523f14]">
                   ⚠ {inspectedProblem.diagnosedMisconception}
                 </span>
               )}
             </div>
 
             <div className="space-y-1">
-              <span className="font-mono text-[11px] text-slate-400 block uppercase">
+              <span className="font-mono text-[10px] text-[#8b949e] block uppercase">
                 Submitted Python Code:
               </span>
-              <pre className="p-4 rounded-xl bg-black border border-slate-800 font-mono text-xs text-cyan-300 whitespace-pre-wrap">
+              <pre className="p-3 rounded bg-[#090d13] border border-[#212734] font-mono text-xs text-[#58a6ff] whitespace-pre-wrap select-text">
                 {inspectedProblem.submittedCode}
               </pre>
             </div>
 
-            <p className="text-slate-400 text-xs leading-relaxed">
-              Every submission is retained with its AST diagnosis snapshot and transfer evaluation
-              so learners and mentors can trace cognitive progression over time.
+            <p className="text-[#8b949e] text-xs leading-relaxed">
+              Every submission is retained with its AST diagnosis snapshot and transfer evaluation for cognitive auditing.
             </p>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-2 font-mono">
               <button
                 onClick={() => setInspectedProblem(null)}
-                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs"
+                className="px-3.5 py-1.5 rounded bg-[#141922] hover:bg-[#1c2330] text-[#f0f6fc] text-xs border border-[#262e3d] transition-colors"
               >
-                Close Inspection
+                Close
               </button>
             </div>
           </div>

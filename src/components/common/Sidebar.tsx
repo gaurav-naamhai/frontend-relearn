@@ -7,9 +7,9 @@ import {
   History,
   User,
   Settings,
-  Sparkles,
   Target,
   X,
+  Layers,
 } from "lucide-react";
 import { LearnerProfile } from "../../types";
 
@@ -47,41 +47,41 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#0d131f] border-r border-slate-800/80 text-slate-300 w-64 select-none">
+    <div className="flex flex-col h-full bg-[#0c1017] border-r border-[#212734] text-[#8b949e] w-64 select-none">
       {/* Brand Header */}
-      <div className="p-5 border-b border-slate-800/80 flex items-center justify-between">
+      <div className="px-4 py-3.5 border-b border-[#212734] flex items-center justify-between">
         <button
           onClick={() => onNavigate("/")}
           className="flex items-center gap-2.5 text-left group"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+          <div className="w-7 h-7 rounded bg-[#1b2230] border border-[#2f3a4e] flex items-center justify-center text-[#f0f6fc] font-mono font-bold text-xs tracking-tight transition-colors group-hover:border-[#42526e]">
             RE
           </div>
           <div>
-            <div className="font-extrabold tracking-wider text-slate-100 text-base font-mono flex items-center gap-1.5">
+            <div className="font-bold tracking-wider text-[#f0f6fc] text-xs font-mono flex items-center gap-1.5">
               RE:LEARN
-              <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.2 rounded bg-indigo-950 text-indigo-400 border border-indigo-800/60">
-                v1
+              <span className="text-[9px] uppercase font-mono font-bold tracking-wider px-1 py-0.2 rounded bg-[#141922] text-[#8b949e] border border-[#262e3d]">
+                v1.0
               </span>
             </div>
-            <div className="text-[11px] text-slate-400 font-medium">Cognitive Python Learning</div>
+            <div className="text-[10px] text-[#6e7681] font-mono">Cognitive Tutor Engine</div>
           </div>
         </button>
 
         {isMobileOpen && (
           <button
             onClick={onToggleMobile}
-            className="md:hidden text-slate-400 hover:text-slate-100 p-1"
+            className="md:hidden text-[#8b949e] hover:text-[#f0f6fc] p-1 rounded hover:bg-[#161c26]"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         )}
       </div>
 
       {/* Main Navigation Links */}
-      <div className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-        <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Learning Loop
+      <div className="flex-1 py-3 px-2.5 space-y-0.5 overflow-y-auto custom-scrollbar">
+        <div className="px-2.5 pt-1 pb-1.5 text-[10px] font-mono uppercase tracking-widest text-[#6e7681] font-semibold">
+          Platform
         </div>
 
         {navItems.map((item) => {
@@ -97,29 +97,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 onNavigate(item.path);
                 if (isMobileOpen) onToggleMobile();
               }}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
+              className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded text-xs font-medium transition-colors ${
                 isActive
-                  ? "bg-indigo-600/15 text-indigo-300 border border-indigo-500/30 font-semibold"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent"
+                  ? "bg-[#18202d] text-[#f0f6fc] border border-[#2d384c] font-semibold"
+                  : "text-[#8b949e] hover:text-[#e6edf3] hover:bg-[#121721] border border-transparent"
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <Icon
-                  className={`w-4 h-4 ${
-                    isActive ? "text-indigo-400" : "text-slate-400 group-hover:text-slate-300"
+                  className={`w-3.5 h-3.5 ${
+                    isActive ? "text-[#f0f6fc]" : "text-[#6e7681]"
                   }`}
                 />
                 <span>{item.label}</span>
               </div>
 
               {item.badge && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-950/80 text-indigo-300 border border-indigo-800/60 font-mono">
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#12161f] text-[#8b949e] border border-[#212734] font-mono">
                   {item.badge}
                 </span>
               )}
 
               {typeof item.badgeCount === "number" && item.badgeCount > 0 && (
-                <span className="text-[11px] font-mono font-bold px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#231b09] text-[#d29922] border border-[#523f14]">
                   {item.badgeCount}
                 </span>
               )}
@@ -127,25 +127,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
           );
         })}
 
-        {/* Current Goal Section */}
-        <div className="pt-5 pb-2">
-          <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <Target className="w-3.5 h-3.5 text-indigo-400" />
-            Current Goal
+        {/* Target Goal Panel */}
+        <div className="pt-4 pb-1">
+          <div className="px-2.5 pb-1.5 text-[10px] font-mono uppercase tracking-widest text-[#6e7681] font-semibold flex items-center gap-1.5">
+            <Target className="w-3 h-3 text-[#8b949e]" />
+            Target Goal
           </div>
-          <div className="mx-2 p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs">
-            <div className="font-semibold text-slate-200">{learner.goal}</div>
-            <div className="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <div className="mx-1 p-2 rounded bg-[#090d13] border border-[#1e2533] text-xs">
+            <div className="font-medium text-[#c9d1d9] text-[11px] leading-tight">{learner.goal}</div>
+            <div className="text-[10px] text-[#6e7681] font-mono mt-1 flex items-center justify-between">
               <span>Python Fundamentals</span>
-              <span className="text-emerald-400 font-mono">On Track</span>
+              <span className="text-[#3fb950]">On Track</span>
             </div>
           </div>
         </div>
 
         {/* Secondary Links */}
-        <div className="pt-4 pb-2">
-          <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Account
+        <div className="pt-3 pb-1">
+          <div className="px-2.5 pb-1.5 text-[10px] font-mono uppercase tracking-widest text-[#6e7681] font-semibold">
+            Preferences
           </div>
           {secondaryNavItems.map((item) => {
             const Icon = item.icon;
@@ -157,13 +157,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onNavigate(item.path);
                   if (isMobileOpen) onToggleMobile();
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-xs font-medium transition-colors ${
                   isActive
-                    ? "bg-slate-800 text-slate-100"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+                    ? "bg-[#18202d] text-[#f0f6fc] border border-[#2d384c]"
+                    : "text-[#8b949e] hover:text-[#e6edf3] hover:bg-[#121721] border border-transparent"
                 }`}
               >
-                <Icon className="w-4 h-4 text-slate-400" />
+                <Icon className="w-3.5 h-3.5 text-[#6e7681]" />
                 <span>{item.label}</span>
               </button>
             );
@@ -171,28 +171,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
 
-      {/* Footer Learner Mastery Level Card (Section 3 & 31) */}
-      <div className="p-3.5 border-t border-slate-800/80 bg-slate-950/70">
+      {/* Footer Learner Mastery Level Card */}
+      <div className="p-3 border-t border-[#212734] bg-[#090d13]">
         <div className="flex items-center justify-between text-xs mb-1.5">
-          <span className="font-bold text-indigo-300 font-mono flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            LEVEL {learner.level}
+          <span className="font-bold text-[#f0f6fc] font-mono text-[11px] flex items-center gap-1">
+            <Layers className="w-3 h-3 text-[#8b949e]" />
+            LVL {learner.level}
           </span>
-          <span className="text-slate-400 text-[11px] font-mono">
+          <span className="text-[#8b949e] text-[10px] font-mono">
             {learner.masteryPercentage}% Mastery
           </span>
         </div>
 
         {/* Mastery bar */}
-        <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800 mb-2">
+        <div className="w-full bg-[#141922] h-1.5 rounded-sm overflow-hidden border border-[#212734] mb-1.5">
           <div
-            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500"
+            className="h-full bg-[#388bfd] rounded-sm transition-all duration-500"
             style={{ width: `${learner.masteryPercentage}%` }}
           />
         </div>
 
-        <div className="text-[10px] text-slate-400 leading-tight">
-          Level advances via conceptual mastery, not brute-force problem count.
+        <div className="text-[9px] text-[#6e7681] font-mono leading-tight">
+          Advances via cognitive concept transfer.
         </div>
       </div>
     </div>
@@ -209,10 +209,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 md:hidden flex">
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/80"
             onClick={onToggleMobile}
           />
-          <div className="relative z-10 animate-in slide-in-from-left duration-200">
+          <div className="relative z-10">
             {sidebarContent}
           </div>
         </div>
@@ -220,3 +220,4 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 };
+

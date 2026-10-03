@@ -22,26 +22,26 @@ export const TestResults: React.FC<TestResultsProps> = ({
   const [activeTab, setActiveTab] = React.useState<"tests" | "output">("tests");
 
   return (
-    <div className="flex flex-col h-full bg-[#0a0e17] border-t border-slate-800 text-xs">
+    <div className="flex flex-col h-full bg-[#090d13] border-t border-[#212734] text-xs select-none">
       {/* Tabs */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#0d131f] border-b border-slate-800">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-[#0c1017] border-b border-[#212734]">
+        <div className="flex items-center gap-1.5 font-mono text-[11px]">
           <button
             onClick={() => setActiveTab("tests")}
-            className={`px-2.5 py-1 rounded font-medium transition-colors ${
+            className={`px-2 py-0.5 rounded font-medium transition-colors ${
               activeTab === "tests"
-                ? "bg-slate-800 text-slate-100"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#161c26] text-[#f0f6fc] border border-[#2d384c]"
+                : "text-[#8b949e] hover:text-[#c9d1d9]"
             }`}
           >
             Test Cases ({testsPassed}/{totalTests})
           </button>
           <button
             onClick={() => setActiveTab("output")}
-            className={`px-2.5 py-1 rounded font-medium transition-colors flex items-center gap-1.5 ${
+            className={`px-2 py-0.5 rounded font-medium transition-colors flex items-center gap-1 ${
               activeTab === "output"
-                ? "bg-slate-800 text-slate-100"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#161c26] text-[#f0f6fc] border border-[#2d384c]"
+                : "text-[#8b949e] hover:text-[#c9d1d9]"
             }`}
           >
             <Terminal className="w-3 h-3" />
@@ -51,11 +51,11 @@ export const TestResults: React.FC<TestResultsProps> = ({
 
         <div>
           {isSuccess ? (
-            <span className="text-emerald-400 font-mono font-semibold flex items-center gap-1">
+            <span className="text-[#3fb950] font-mono text-[11px] font-semibold flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" /> All Tests Passed
             </span>
           ) : (
-            <span className="text-rose-400 font-mono font-semibold flex items-center gap-1">
+            <span className="text-[#f85149] font-mono text-[11px] font-semibold flex items-center gap-1">
               <XCircle className="w-3.5 h-3.5" /> {testsPassed}/{totalTests} Passed
             </span>
           )}
@@ -63,82 +63,82 @@ export const TestResults: React.FC<TestResultsProps> = ({
       </div>
 
       {/* Body */}
-      <div className="p-4 flex-1 overflow-y-auto custom-scrollbar">
+      <div className="p-3 flex-1 overflow-y-auto custom-scrollbar select-text">
         {isSuccess ? (
-          /* Compact Success Panel (Section 13) */
-          <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-800/60 text-slate-200 space-y-3">
+          /* Compact Success Panel */
+          <div className="p-3.5 rounded bg-[#0c2013] border border-[#1e4a29] text-[#c9d1d9] space-y-2.5">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-                <CheckCircle2 className="w-5 h-5" />
-                <span>Correct Solution</span>
+              <div className="flex items-center gap-2 text-[#3fb950] font-bold text-xs font-mono">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Verification Passed</span>
               </div>
               {onNextProblem && (
                 <button
                   onClick={onNextProblem}
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors shadow-md shadow-emerald-950/40"
+                  className="px-3 py-1 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-mono font-semibold text-xs transition-colors"
                 >
                   Next Problem →
                 </button>
               )}
             </div>
 
-            <div className="text-xs text-slate-300">
-              You successfully used:
-              <ul className="list-disc list-inside mt-1 space-y-0.5 text-slate-300 font-mono text-[11px]">
-                <li>function parameters</li>
-                <li>arithmetic operations</li>
-                <li>explicit return values</li>
+            <div className="text-xs text-[#8b949e]">
+              Constructs validated:
+              <ul className="list-disc list-inside mt-1 space-y-0.5 text-[#c9d1d9] font-mono text-[11px]">
+                <li>Function signature & parameters</li>
+                <li>Arithmetic execution frame</li>
+                <li>Explicit caller return value</li>
               </ul>
             </div>
 
-            <div className="p-2.5 rounded bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300">
-              <span className="font-semibold text-indigo-300 block mb-0.5">Remember:</span>
-              A function's return value is what the caller receives in its memory. Nice work.
+            <div className="p-2 rounded bg-[#090d13] border border-[#1e2533] text-[11px] text-[#8b949e] font-mono">
+              <span className="font-semibold text-[#f0f6fc] block mb-0.5">Cognitive Confirmation:</span>
+              A function's return value passes evaluated memory back to the caller scope.
             </div>
           </div>
         ) : activeTab === "tests" ? (
           /* Test List */
-          <div className="space-y-2">
+          <div className="space-y-1.5 font-mono">
             {tests.map((test, idx) => (
               <div
                 key={test.id || idx}
-                className={`p-2.5 rounded-lg border font-mono text-xs flex flex-col gap-1.5 ${
+                className={`p-2 rounded border text-xs flex flex-col gap-1 ${
                   test.passed
-                    ? "bg-emerald-950/15 border-emerald-800/40 text-emerald-200"
-                    : "bg-rose-950/15 border-rose-800/40 text-rose-200"
+                    ? "bg-[#0c1610] border-[#1e3825] text-[#3fb950]"
+                    : "bg-[#180e11] border-[#381a1e] text-[#f85149]"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {test.passed ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#3fb950] shrink-0" />
                     ) : (
-                      <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                      <XCircle className="w-3.5 h-3.5 text-[#f85149] shrink-0" />
                     )}
-                    <span className="font-semibold text-slate-200">
+                    <span className="font-semibold text-[#c9d1d9] text-[11px]">
                       Test {idx + 1}: {test.inputDescription}
                     </span>
                   </div>
                   <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
+                    className={`text-[9px] px-1.5 py-0.2 rounded font-mono ${
                       test.passed
-                        ? "bg-emerald-950 text-emerald-400 border border-emerald-800/50"
-                        : "bg-rose-950 text-rose-400 border border-rose-800/50"
+                        ? "bg-[#0c2013] text-[#3fb950] border border-[#1e4a29]"
+                        : "bg-[#261114] text-[#f85149] border border-[#542227]"
                     }`}
                   >
-                    {test.passed ? "Passed" : "Mismatch"}
+                    {test.passed ? "PASSED" : "FAILED"}
                   </span>
                 </div>
 
                 {!test.passed && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1 border-t border-slate-800/60 mt-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1 border-t border-[#26171b] mt-0.5">
                     <div>
-                      <span className="text-slate-400">Expected: </span>
-                      <span className="text-emerald-400 font-bold">{test.expectedOutput}</span>
+                      <span className="text-[#8b949e]">Expected: </span>
+                      <span className="text-[#3fb950] font-bold">{test.expectedOutput}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400">Received: </span>
-                      <span className="text-rose-400 font-bold">
+                      <span className="text-[#8b949e]">Received: </span>
+                      <span className="text-[#f85149] font-bold">
                         {test.actualOutput || "None"}
                       </span>
                     </div>
@@ -149,14 +149,14 @@ export const TestResults: React.FC<TestResultsProps> = ({
           </div>
         ) : (
           /* Stdout Tab */
-          <div className="p-3 rounded-lg bg-black/60 border border-slate-800 font-mono text-xs text-slate-300 whitespace-pre-wrap">
+          <div className="p-2.5 rounded bg-[#07090e] border border-[#212734] font-mono text-xs text-[#c9d1d9] whitespace-pre-wrap">
             {stdout ? (
               <div>
-                <span className="text-slate-400 block mb-1"># Program Standard Output:</span>
+                <span className="text-[#6e7681] block mb-1"># Terminal Stdout:</span>
                 {stdout}
               </div>
             ) : (
-              <span className="text-slate-400">No output printed to standard out.</span>
+              <span className="text-[#6e7681]">No output written to stdout.</span>
             )}
           </div>
         )}
@@ -164,3 +164,4 @@ export const TestResults: React.FC<TestResultsProps> = ({
     </div>
   );
 };
+

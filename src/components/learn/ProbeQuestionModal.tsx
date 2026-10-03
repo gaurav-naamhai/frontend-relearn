@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal } from "../common/Modal";
 import { ProbeQuestion } from "../../types";
-import { CheckCircle2, HelpCircle, Sparkles, ArrowRight } from "lucide-react";
+import { CheckCircle2, HelpCircle, ArrowRight } from "lucide-react";
 
 interface ProbeQuestionModalProps {
   isOpen: boolean;
@@ -41,43 +41,42 @@ export const ProbeQuestionModal: React.FC<ProbeQuestionModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title="Diagnostic Probe Question"
-      subtitle="Before we finalize what went wrong, let's distinguish between look-alike possibilities."
+      subtitle="Before concluding root cause, this probe disambiguates careless typos from flawed mental models."
       maxWidth="xl"
     >
-      <div className="space-y-4 text-xs text-slate-200">
-        <div className="p-3.5 rounded-lg bg-indigo-950/40 border border-indigo-800/60 flex items-start gap-2.5">
-          <HelpCircle className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-          <p className="leading-relaxed">
-            Mistakes in code often look identical on the surface. Answering this quick
-            conceptual probe isolates your exact mental model from a careless slip.
+      <div className="space-y-3.5 text-xs text-[#c9d1d9] select-none">
+        <div className="p-2.5 rounded bg-[#12161f] border border-[#212734] flex items-start gap-2">
+          <HelpCircle className="w-3.5 h-3.5 text-[#58a6ff] shrink-0 mt-0.5" />
+          <p className="leading-relaxed text-[#8b949e]">
+            Answering this conceptual probe isolates your exact mental model from a careless slip.
           </p>
         </div>
 
         {/* Code Snippet */}
-        <div className="p-4 rounded-xl bg-black/80 border border-slate-800 text-center font-mono text-sm sm:text-base text-amber-300">
+        <div className="p-3 rounded bg-[#090d13] border border-[#212734] text-center font-mono text-sm text-[#d29922]">
           <code>{probe.codeSnippet}</code>
         </div>
 
         {/* Question */}
-        <div className="font-semibold text-sm text-slate-100">
+        <div className="font-semibold text-xs text-[#f0f6fc] font-mono">
           {probe.question}
         </div>
 
         {/* Options */}
-        <div className="space-y-2">
+        <div className="space-y-1.5 font-mono">
           {probe.options.map((opt) => {
             const isSelected = selectedId === opt.id;
             let optStyle =
-              "bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-850";
+              "bg-[#0e1218] border-[#212734] hover:border-[#303848] hover:bg-[#12161f] text-[#c9d1d9]";
 
             if (isSelected) {
-              optStyle = "bg-indigo-950/80 border-indigo-500 text-indigo-200 shadow-md";
+              optStyle = "bg-[#161d28] border-[#388bfd] text-[#f0f6fc]";
             }
             if (submitted) {
               if (opt.isCorrect) {
-                optStyle = "bg-emerald-950/80 border-emerald-500 text-emerald-200";
+                optStyle = "bg-[#0c2013] border-[#2ea043] text-[#3fb950]";
               } else if (isSelected && !opt.isCorrect) {
-                optStyle = "bg-rose-950/80 border-rose-500 text-rose-200";
+                optStyle = "bg-[#261114] border-[#f85149] text-[#f85149]";
               }
             }
 
@@ -86,18 +85,18 @@ export const ProbeQuestionModal: React.FC<ProbeQuestionModalProps> = ({
                 key={opt.id}
                 onClick={() => handleSelect(opt.id)}
                 disabled={submitted}
-                className={`w-full p-3 rounded-lg border text-left flex items-center justify-between transition-all ${optStyle}`}
+                className={`w-full p-2.5 rounded border text-left flex items-center justify-between transition-colors ${optStyle}`}
               >
-                <div className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded bg-slate-800 border border-slate-700 font-mono font-bold flex items-center justify-center text-xs text-slate-300">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-5 h-5 rounded bg-[#161b24] border border-[#262e3d] font-mono font-bold flex items-center justify-center text-[11px] text-[#8b949e]">
                     {opt.label}
                   </span>
-                  <span className="font-mono text-sm">{opt.text}</span>
+                  <span className="font-mono text-xs">{opt.text}</span>
                 </div>
 
                 {submitted && opt.isCorrect && (
-                  <span className="text-emerald-400 font-bold flex items-center gap-1 text-xs">
-                    <CheckCircle2 className="w-4 h-4" /> Correct Answer
+                  <span className="text-[#3fb950] font-bold flex items-center gap-1 text-[11px]">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Correct Answer
                   </span>
                 )}
               </button>
@@ -107,16 +106,15 @@ export const ProbeQuestionModal: React.FC<ProbeQuestionModalProps> = ({
 
         {/* Feedback / Result Explanation */}
         {submitted && selectedOpt && (
-          <div className="p-4 rounded-xl bg-slate-950 border border-indigo-500/50 space-y-2 animate-in fade-in duration-300">
-            <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs">
-              <Sparkles className="w-4 h-4" />
-              <span>Diagnostic Model Updated</span>
+          <div className="p-3 rounded bg-[#0e1218] border border-[#262e3d] space-y-1.5">
+            <div className="flex items-center gap-2 text-[#58a6ff] font-bold font-mono text-xs">
+              <span>Diagnostic Model Calibrated</span>
             </div>
-            <p className="text-slate-300 leading-relaxed text-xs">
+            <p className="text-[#8b949e] leading-relaxed text-xs">
               {probe.explanation}
             </p>
             {selectedOpt.diagnosisShift && (
-              <p className="text-indigo-300 font-mono text-[11px] pt-1">
+              <p className="text-[#58a6ff] font-mono text-[10px] pt-0.5">
                 {selectedOpt.diagnosisShift}
               </p>
             )}
@@ -124,15 +122,15 @@ export const ProbeQuestionModal: React.FC<ProbeQuestionModalProps> = ({
         )}
 
         {/* Buttons */}
-        <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
+        <div className="flex justify-end gap-2 pt-2.5 border-t border-[#212734] font-mono">
           {!submitted ? (
             <button
               onClick={handleSubmit}
               disabled={!selectedId}
-              className={`px-4 py-2 rounded-lg font-semibold text-xs flex items-center gap-1.5 transition-colors ${
+              className={`px-3.5 py-1.5 rounded font-semibold text-xs transition-colors ${
                 selectedId
-                  ? "bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-950/50"
-                  : "bg-slate-800 text-slate-500 cursor-not-allowed"
+                  ? "bg-[#238636] hover:bg-[#2ea043] text-white border border-[#2ea043]"
+                  : "bg-[#141922] text-[#6e7681] border border-[#212734] cursor-not-allowed"
               }`}
             >
               <span>Submit Answer</span>
@@ -140,7 +138,7 @@ export const ProbeQuestionModal: React.FC<ProbeQuestionModalProps> = ({
           ) : (
             <button
               onClick={handleDone}
-              className="px-4 py-2 rounded-lg font-semibold text-xs bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-1.5 transition-colors shadow-md shadow-emerald-950/50"
+              className="px-3.5 py-1.5 rounded font-semibold text-xs bg-[#238636] hover:bg-[#2ea043] text-white border border-[#2ea043] flex items-center gap-1.5 transition-colors"
             >
               <span>View Updated Diagnosis</span>
               <ArrowRight className="w-3.5 h-3.5" />

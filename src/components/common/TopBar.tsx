@@ -27,73 +27,71 @@ export const TopBar: React.FC<TopBarProps> = ({
   onNavigate,
 }) => {
   const getBreadcrumb = (path: string) => {
-    if (path.startsWith("/learn")) return "Learning Environment → Functions & Returns";
-    if (path === "/dashboard") return "Learner Dashboard";
-    if (path === "/progress") return "Adaptive Skill Analytics & Mastery";
-    if (path === "/misconceptions") return "Active & Resolved Misconceptions";
-    if (path === "/history") return "Learning Timeline & Submissions";
-    if (path === "/profile") return "Learner Model & Preferences";
-    if (path.startsWith("/reassessment")) return "Targeted Transfer Reassessment";
-    return "Re:Learn";
+    if (path.startsWith("/learn")) return "re:learn / workspace / functions_return_values";
+    if (path === "/dashboard") return "re:learn / dashboard";
+    if (path === "/progress") return "re:learn / analytics / mastery_map";
+    if (path === "/misconceptions") return "re:learn / catalog / misconceptions";
+    if (path === "/history") return "re:learn / audit_log / submissions";
+    if (path === "/profile") return "re:learn / config / learner_profile";
+    if (path.startsWith("/reassessment")) return "re:learn / transfer_evaluation";
+    return "re:learn";
   };
 
   return (
-    <header className="h-14 border-b border-slate-800/80 bg-[#0d131f]/80 backdrop-blur-md px-4 flex items-center justify-between sticky top-0 z-20">
-      <div className="flex items-center gap-3">
+    <header className="h-11 border-b border-[#212734] bg-[#0c1017] px-3.5 flex items-center justify-between sticky top-0 z-20 select-none">
+      <div className="flex items-center gap-2.5">
         <button
           onClick={onToggleMobile}
-          className="md:hidden p-1.5 text-slate-400 hover:text-slate-100 rounded-lg hover:bg-slate-800"
+          className="md:hidden p-1 text-[#8b949e] hover:text-[#f0f6fc] rounded hover:bg-[#161c26]"
           aria-label="Toggle Navigation"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-4 h-4" />
         </button>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-medium text-slate-400">
-            {getBreadcrumb(currentPath)}
-          </span>
+        <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#8b949e]">
+          <span className="text-[#c9d1d9]">{getBreadcrumb(currentPath)}</span>
         </div>
       </div>
 
       {/* Action Tools & Demo Controls */}
       <div className="flex items-center gap-2">
-        {/* Learner A vs B Compare Modal Trigger (Section 39) */}
+        {/* Learner A vs B Compare Modal Trigger */}
         <button
           onClick={onOpenLearnerComparison}
-          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800/90 text-slate-300 hover:text-slate-100 hover:bg-slate-700/80 border border-slate-700 transition-colors"
+          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono font-medium bg-[#141922] text-[#c9d1d9] hover:text-[#f0f6fc] hover:bg-[#1c2330] border border-[#262e3d] transition-colors"
           title="Compare look-alike mistakes: Misconception vs Careless Slip"
         >
-          <GitCompare className="w-3.5 h-3.5 text-cyan-400" />
+          <GitCompare className="w-3.5 h-3.5 text-[#58a6ff]" />
           <span>Learner A vs B</span>
         </button>
 
-        {/* 3-Minute Demo Tour Guided Trigger (Section 46) */}
+        {/* 3-Minute Demo Tour Guided Trigger */}
         <button
           onClick={onOpenDemoTour}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-500 hover:to-purple-500 shadow-md shadow-indigo-600/20 transition-all hover:scale-[1.02]"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono font-semibold bg-[#1e2736] hover:bg-[#273347] text-[#f0f6fc] border border-[#37465f] transition-colors"
         >
-          <Play className="w-3 h-3 fill-current" />
+          <Play className="w-3 h-3 fill-current text-[#f0f6fc]" />
           <span>3-Min Demo Tour</span>
         </button>
 
         {/* Quick Reset Button */}
         <button
           onClick={onResetData}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+          className="p-1 rounded text-[#8b949e] hover:text-[#f0f6fc] hover:bg-[#161c26] border border-transparent hover:border-[#212734] transition-colors"
           title="Reset Demo Data to Initial State"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-3.5 h-3.5" />
         </button>
 
         {/* Learner Avatar Pill */}
         <button
           onClick={() => onNavigate("/profile")}
-          className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors"
+          className="flex items-center gap-1.5 pl-2 pr-1 py-0.5 rounded bg-[#12161f] border border-[#212734] hover:border-[#303848] transition-colors"
         >
-          <span className="text-xs font-medium text-slate-300 hidden sm:inline">
+          <span className="text-xs font-mono text-[#c9d1d9] hidden sm:inline">
             {learner.name.split(" ")[0]}
           </span>
-          <div className="w-6 h-6 rounded-full bg-indigo-600/40 border border-indigo-400/50 flex items-center justify-center text-xs font-bold text-indigo-300">
+          <div className="w-5 h-5 rounded bg-[#1f2634] border border-[#303c52] flex items-center justify-center text-[10px] font-mono font-bold text-[#f0f6fc]">
             {learner.name.charAt(0)}
           </div>
         </button>
@@ -101,3 +99,4 @@ export const TopBar: React.FC<TopBarProps> = ({
     </header>
   );
 };
+

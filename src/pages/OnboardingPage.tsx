@@ -3,6 +3,8 @@ import {
   ArrowRight,
   CheckCircle2,
   Brain,
+  Target,
+  Terminal,
 } from "lucide-react";
 import { learnerService } from "../services/learnerService";
 
@@ -135,246 +137,228 @@ export const OnboardingPage: React.FC<OnboardingProps> = ({ onComplete }) => {
     if (quizIndex < diagnosticQuestions.length - 1) {
       setQuizIndex((p) => p + 1);
     } else {
-      setStep(4); // Show initial skill map
+      setStep(4);
     }
   };
 
   const handleFinishOnboarding = () => {
-    learnerService.updateLearner({
-      goal: selectedGoal,
-    });
+    learnerService.updateLearner({ goal: selectedGoal });
     onComplete();
   };
 
   return (
-    <div className="min-h-screen bg-[#070a10] text-slate-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-black space-y-6">
-        {/* Step Indicator Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4 text-xs font-mono">
+    <div className="min-h-screen bg-[#090d13] text-[#e6edf3] flex items-center justify-center p-6 select-none">
+      <div className="w-full max-w-2xl p-6 rounded bg-[#0e1218] border border-[#212734] space-y-5">
+        {/* Step Indicator */}
+        <div className="flex items-center justify-between border-b border-[#212734] pb-3 text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-md bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">
-              {step}
-            </span>
-            <span className="text-slate-300 font-semibold">
-              {step === 1 && "Step 1: Choose Your Learning Goal"}
-              {step === 2 && "Step 2: Programming Experience"}
-              {step === 3 && "Step 3: Diagnostic Skill Calibration"}
-              {step === 4 && "Your Starting Skill Map"}
+            <span className="text-[#f0f6fc] font-bold">Calibration Step {step} / 4</span>
+            <span className="text-[#484f58]">|</span>
+            <span className="text-[#8b949e]">
+              {step === 1 && "Target Objective"}
+              {step === 2 && "Prior Background"}
+              {step === 3 && "Diagnostic Probe"}
+              {step === 4 && "Initial Skill Map"}
             </span>
           </div>
 
-          <span className="text-slate-400">Step {step} of 4</span>
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4].map((s) => (
+              <div
+                key={s}
+                className={`w-5 h-1 rounded-sm ${
+                  s <= step ? "bg-[#388bfd]" : "bg-[#161b24]"
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* STEP 1: GOAL */}
+        {/* STEP 1: GOAL SELECTION */}
         {step === 1 && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-bold text-white">What is your primary goal?</h2>
-              <p className="text-xs text-slate-400 mt-1">
-                We customize the problem contexts and application examples to match your target.
+              <h2 className="text-base font-bold text-[#f0f6fc] font-mono">
+                Select your primary Python target
+              </h2>
+              <p className="text-xs text-[#8b949e] mt-0.5">
+                The cognitive engine will prioritize problem sets and misconceptions aligned with your goals.
               </p>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {goals.map((g) => {
                 const isSelected = selectedGoal === g.title;
                 return (
                   <button
                     key={g.title}
                     onClick={() => setSelectedGoal(g.title)}
-                    className={`w-full p-4 rounded-xl border text-left transition-all flex items-center justify-between ${
+                    className={`p-3 rounded border text-left flex flex-col justify-between gap-1 transition-colors ${
                       isSelected
-                        ? "bg-indigo-950/80 border-indigo-500 shadow-md shadow-indigo-950/40"
-                        : "bg-slate-950/60 border-slate-800 hover:border-slate-700"
+                        ? "bg-[#161d28] border-[#388bfd]"
+                        : "bg-[#090d13] border-[#212734] hover:border-[#303848]"
                     }`}
                   >
-                    <div>
-                      <div className="font-semibold text-sm text-slate-100">{g.title}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{g.desc}</div>
+                    <div className="flex items-center justify-between font-mono">
+                      <span
+                        className={`font-semibold text-xs ${
+                          isSelected ? "text-[#f0f6fc]" : "text-[#c9d1d9]"
+                        }`}
+                      >
+                        {g.title}
+                      </span>
+                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-[#58a6ff]" />}
                     </div>
-                    {isSelected && (
-                      <CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0" />
-                    )}
+                    <p className="text-[11px] text-[#8b949e] leading-snug">{g.desc}</p>
                   </button>
                 );
               })}
             </div>
 
-            <div className="flex justify-end pt-3">
+            <div className="flex justify-end pt-2 border-t border-[#212734] font-mono">
               <button
                 onClick={() => setStep(2)}
-                className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-xs text-white flex items-center gap-2 shadow-lg shadow-indigo-950/50"
+                className="px-4 py-1.5 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-semibold text-xs border border-[#2ea043] flex items-center gap-1.5 transition-colors"
               >
                 <span>Continue</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 2: EXPERIENCE */}
+        {/* STEP 2: EXPERIENCE LEVEL */}
         {step === 2 && (
           <div className="space-y-4">
             <div>
-              <h2 className="text-xl font-bold text-white">How much programming have you done?</h2>
-              <p className="text-xs text-slate-400 mt-1">
-                This helps us calibrate starting difficulty and explanation depth.
+              <h2 className="text-base font-bold text-[#f0f6fc] font-mono">
+                What is your current programming background?
+              </h2>
+              <p className="text-xs text-[#8b949e] mt-0.5">
+                Sets the baseline difficulty and AST fault classification sensitivity.
               </p>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               {experiences.map((exp) => {
                 const isSelected = selectedExperience === exp.title;
                 return (
                   <button
                     key={exp.title}
                     onClick={() => setSelectedExperience(exp.title)}
-                    className={`w-full p-4 rounded-xl border text-left transition-all flex items-center justify-between ${
+                    className={`w-full p-3 rounded border text-left flex items-center justify-between transition-colors ${
                       isSelected
-                        ? "bg-indigo-950/80 border-indigo-500 shadow-md shadow-indigo-950/40"
-                        : "bg-slate-950/60 border-slate-800 hover:border-slate-700"
+                        ? "bg-[#161d28] border-[#388bfd]"
+                        : "bg-[#090d13] border-[#212734] hover:border-[#303848]"
                     }`}
                   >
                     <div>
-                      <div className="font-semibold text-sm text-slate-100">{exp.title}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{exp.desc}</div>
+                      <div
+                        className={`font-semibold text-xs font-mono ${
+                          isSelected ? "text-[#f0f6fc]" : "text-[#c9d1d9]"
+                        }`}
+                      >
+                        {exp.title}
+                      </div>
+                      <div className="text-[11px] text-[#8b949e] mt-0.5">{exp.desc}</div>
                     </div>
-                    {isSelected && (
-                      <CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0" />
-                    )}
+                    {isSelected && <CheckCircle2 className="w-4 h-4 text-[#58a6ff] shrink-0" />}
                   </button>
                 );
               })}
             </div>
 
-            <div className="flex items-center justify-between pt-3">
+            <div className="flex justify-between pt-2 border-t border-[#212734] font-mono">
               <button
                 onClick={() => setStep(1)}
-                className="px-4 py-2 rounded-lg text-xs text-slate-400 hover:text-slate-200"
+                className="px-3 py-1.5 rounded bg-[#141922] hover:bg-[#1a202c] text-[#c9d1d9] text-xs border border-[#262e3d] transition-colors"
               >
                 Back
               </button>
               <button
                 onClick={() => setStep(3)}
-                className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-xs text-white flex items-center gap-2 shadow-lg shadow-indigo-950/50"
+                className="px-4 py-1.5 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-semibold text-xs border border-[#2ea043] flex items-center gap-1.5 transition-colors"
               >
-                <span>Start Diagnostic Quiz</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Start Diagnostic Check (10 Qs)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 3: DIAGNOSTIC QUIZ */}
+        {/* STEP 3: 10-QUESTION DIAGNOSTIC */}
         {step === 3 && (
-          <div className="space-y-5">
-            <div className="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-800/50 text-xs text-slate-300 space-y-1">
-              <div className="font-semibold text-indigo-300 flex items-center gap-1.5">
-                <Brain className="w-4 h-4 text-indigo-400" />
-                Let's understand what you already know.
-              </div>
-              <p className="text-slate-400">
-                This is not a test you can fail. It personalizes your cognitive skill baseline.
-              </p>
-            </div>
-
-            {/* Quiz Progress Indicator */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs font-mono text-slate-400">
-                <span>
-                  Question {quizIndex + 1} / {diagnosticQuestions.length}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#58a6ff] font-bold">
+                  Question {quizIndex + 1} of {diagnosticQuestions.length} // {diagnosticQuestions[quizIndex].concept}
                 </span>
-                <span className="text-indigo-400 font-semibold">
-                  {diagnosticQuestions[quizIndex].concept}
-                </span>
-              </div>
-              <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
-                <div
-                  className="bg-indigo-500 h-full transition-all duration-300"
-                  style={{
-                    width: `${((quizIndex + 1) / diagnosticQuestions.length) * 100}%`,
-                  }}
-                />
+                <h3 className="text-sm font-bold text-[#f0f6fc] font-mono mt-0.5">
+                  {diagnosticQuestions[quizIndex].q}
+                </h3>
               </div>
             </div>
 
-            {/* Question Card */}
-            <div className="p-5 rounded-xl bg-black/60 border border-slate-800 space-y-4">
-              <h3 className="text-sm font-semibold text-slate-100 leading-relaxed font-mono">
-                {diagnosticQuestions[quizIndex].q}
-              </h3>
+            <div className="space-y-1.5 font-mono">
+              {diagnosticQuestions[quizIndex].options.map((opt, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleQuizAnswer(idx)}
+                  className="w-full p-2.5 rounded bg-[#090d13] hover:bg-[#12161f] border border-[#212734] hover:border-[#303848] text-left text-xs flex items-center gap-2.5 text-[#c9d1d9] transition-colors"
+                >
+                  <span className="w-5 h-5 rounded bg-[#161b24] border border-[#262e3d] flex items-center justify-center font-bold text-[10px] text-[#8b949e]">
+                    {String.fromCharCode(65 + idx)}
+                  </span>
+                  <span>{opt}</span>
+                </button>
+              ))}
+            </div>
 
-              <div className="space-y-2">
-                {diagnosticQuestions[quizIndex].options.map((opt, optIdx) => (
-                  <button
-                    key={optIdx}
-                    onClick={() => handleQuizAnswer(optIdx)}
-                    className="w-full p-3 rounded-lg border border-slate-800/90 bg-slate-900/80 hover:bg-slate-800 hover:border-slate-700 text-left font-mono text-xs text-slate-200 transition-colors flex items-center gap-3"
-                  >
-                    <span className="w-5 h-5 rounded bg-slate-800 flex items-center justify-center font-bold text-[10px] text-slate-400">
-                      {String.fromCharCode(65 + optIdx)}
-                    </span>
-                    <span>{opt}</span>
-                  </button>
-                ))}
-              </div>
+            <div className="flex justify-between items-center pt-2 border-t border-[#212734] text-[10px] font-mono text-[#6e7681]">
+              <span>Clicking an option advances immediately.</span>
+              <button
+                onClick={() => handleQuizAnswer(0)}
+                className="text-[#8b949e] hover:text-[#c9d1d9] underline"
+              >
+                Skip Question
+              </button>
             </div>
           </div>
         )}
 
-        {/* STEP 4: SKILL MAP SUMMARY */}
+        {/* STEP 4: INITIAL SKILL MAP GENERATED */}
         {step === 4 && (
-          <div className="space-y-5 animate-in fade-in duration-300">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-mono text-xs mb-2">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Diagnostic Completed
+          <div className="space-y-4">
+            <div className="text-center space-y-1 py-1">
+              <div className="w-8 h-8 rounded bg-[#0c2013] border border-[#1e4a29] flex items-center justify-center text-[#3fb950] mx-auto">
+                <CheckCircle2 className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-bold text-white">Your starting skill map</h2>
-              <p className="text-xs text-slate-400 mt-1">
-                Here is your baseline cognitive profile. Re:Learn adapts problem selection based on these confidence scores.
+              <h2 className="text-base font-bold text-[#f0f6fc] font-mono">
+                Cognitive Learner Model Initialized
+              </h2>
+              <p className="text-xs text-[#8b949e]">
+                Baseline set: Level 8 • 67% Initial Python Mastery • 2 Active Misconceptions Identified
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-850">
-                <span className="font-bold text-sm text-slate-200">Python Fundamentals</span>
-                <span className="font-mono font-bold text-base text-indigo-400">72% Baseline</span>
+            <div className="p-3 rounded bg-[#090d13] border border-[#212734] space-y-2 text-xs font-mono">
+              <div className="flex items-center justify-between text-[#8b949e] text-[11px]">
+                <span>Target Track: {selectedGoal}</span>
+                <span className="text-[#3fb950]">Calibrated</span>
               </div>
-
-              <div className="space-y-2 text-xs font-mono">
-                {[
-                  { name: "Variables", pct: 91 },
-                  { name: "Conditions", pct: 78 },
-                  { name: "Lists", pct: 68 },
-                  { name: "Loops", pct: 54 },
-                  { name: "Problem Solving", pct: 51 },
-                  { name: "Functions", pct: 42 },
-                  { name: "Dictionaries", pct: 39 },
-                ].map((item) => (
-                  <div key={item.name} className="flex items-center justify-between p-2 rounded bg-slate-900 border border-slate-850">
-                    <span className="text-slate-300">{item.name}</span>
-                    <div className="flex items-center gap-3">
-                      <div className="w-24 bg-slate-950 h-1.5 rounded-full overflow-hidden">
-                        <div
-                          className="bg-indigo-500 h-full rounded-full"
-                          style={{ width: `${item.pct}%` }}
-                        />
-                      </div>
-                      <span className="text-slate-200 font-bold w-8 text-right">{item.pct}%</span>
-                    </div>
-                  </div>
-                ))}
+              <div className="p-2 rounded bg-[#12161f] border border-[#212734] text-[11px] text-[#c9d1d9]">
+                Recommended First Problem: <strong>Functions & Return Values (Problem 12)</strong>
               </div>
             </div>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-2 border-t border-[#212734] font-mono">
               <button
                 onClick={handleFinishOnboarding}
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 font-bold text-xs text-white shadow-xl shadow-indigo-950/50 flex items-center gap-2"
+                className="px-4 py-2 rounded bg-[#238636] hover:bg-[#2ea043] text-white font-semibold text-xs border border-[#2ea043] flex items-center gap-1.5 transition-colors"
               >
-                <span>Start My Learning Path</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Enter Workspace</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>

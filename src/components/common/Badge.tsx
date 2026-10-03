@@ -16,71 +16,72 @@ export const Badge: React.FC<BadgeProps> = ({
   size = "md",
   className = "",
 }) => {
-  let style = "bg-slate-800 text-slate-300 border-slate-700";
+  let style = "bg-[#141922] text-[#c9d1d9] border-[#262e3d]";
 
   if (variant) {
     switch (variant) {
       case "success":
-        style = "bg-emerald-950/60 text-emerald-300 border-emerald-800/80";
+        style = "bg-[#0c2013] text-[#3fb950] border-[#1e4a29]";
         break;
       case "warning":
-        style = "bg-amber-950/60 text-amber-300 border-amber-800/80";
+        style = "bg-[#231b09] text-[#d29922] border-[#523f14]";
         break;
       case "error":
-        style = "bg-rose-950/60 text-rose-300 border-rose-800/80";
+        style = "bg-[#261114] text-[#f85149] border-[#542227]";
         break;
       case "purple":
-        style = "bg-indigo-950/60 text-indigo-300 border-indigo-700/80";
+        style = "bg-[#171b26] text-[#c9d1d9] border-[#2e374a]";
         break;
       case "info":
-        style = "bg-cyan-950/60 text-cyan-300 border-cyan-800/80";
+        style = "bg-[#0e1b2e] text-[#58a6ff] border-[#1f3b60]";
         break;
       case "neutral":
-        style = "bg-slate-800/80 text-slate-300 border-slate-700";
+        style = "bg-[#141922] text-[#8b949e] border-[#262e3d]";
         break;
     }
   } else if (type) {
     switch (type) {
       case "active":
-        style = "bg-amber-950/70 text-amber-300 border-amber-700/80 animate-pulse";
+        style = "bg-[#231b09] text-[#d29922] border-[#523f14]";
         break;
       case "recurring":
-        style = "bg-rose-950/80 text-rose-300 border-rose-700 font-semibold";
+        style = "bg-[#261114] text-[#f85149] border-[#542227] font-semibold";
         break;
       case "resolved":
-        style = "bg-emerald-950/80 text-emerald-300 border-emerald-700";
+        style = "bg-[#0c2013] text-[#3fb950] border-[#1e4a29]";
         break;
       case "provisional":
-        style = "bg-indigo-950/70 text-indigo-300 border-indigo-700";
+        style = "bg-[#0e1b2e] text-[#58a6ff] border-[#1f3b60]";
         break;
       case "never-seen":
-        style = "bg-slate-800/60 text-slate-400 border-slate-700/50";
+        style = "bg-[#141922] text-[#6e7681] border-[#21262d]";
         break;
       case "conceptual":
-        style = "bg-amber-950/70 text-amber-300 border-amber-700";
+        style = "bg-[#231b09] text-[#d29922] border-[#523f14]";
         break;
       case "careless-slip":
-        style = "bg-blue-950/70 text-blue-300 border-blue-700";
+        style = "bg-[#0e1b2e] text-[#58a6ff] border-[#1f3b60]";
         break;
       case "logical":
-        style = "bg-purple-950/70 text-purple-300 border-purple-700";
+        style = "bg-[#171b26] text-[#c9d1d9] border-[#2e374a]";
         break;
       case "syntax":
-        style = "bg-rose-950/70 text-rose-300 border-rose-700";
+        style = "bg-[#261114] text-[#f85149] border-[#542227]";
         break;
       case "runtime":
-        style = "bg-red-950/70 text-red-300 border-red-700";
+        style = "bg-[#261114] text-[#f85149] border-[#542227]";
         break;
     }
   }
 
-  const sizeClasses = size === "sm" ? "px-2 py-0.5 text-xs" : "px-2.5 py-1 text-xs";
+  const sizeClasses = size === "sm" ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-[11px]";
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-md border font-medium tracking-wide ${sizeClasses} ${style} ${className}`}
+      className={`inline-flex items-center gap-1 rounded border font-mono tracking-tight ${sizeClasses} ${style} ${className}`}
     >
       {label}
     </span>
   );
 };
+
