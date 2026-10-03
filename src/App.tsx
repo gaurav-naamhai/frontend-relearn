@@ -42,7 +42,7 @@ export default function App() {
       />
 
       {/* Main Content Viewport */}
-      <main className="flex-1">
+      <main className="flex-1 overflow-y-auto">
         {currentPath === "/" && (
           <HeroSection
             onStartLearning={() => handleNavigate("/learn")}
