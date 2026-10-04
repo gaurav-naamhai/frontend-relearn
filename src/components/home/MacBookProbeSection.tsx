@@ -7,6 +7,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  useReducedMotion,
   AnimatePresence,
 } from "framer-motion";
 import {
@@ -15,10 +16,16 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
+  RotateCw,
   Activity,
   Sparkles,
   X,
+  Brain,
+  Cpu,
+  ShieldCheck,
+  ChevronDown,
 } from "lucide-react";
+import { Glass } from "../ui/Glass";
 
 // Module-level constants & easings
 const BLUE = "#6182ff";
@@ -69,8 +76,15 @@ const ROWS: number[][] = [
   [1.3, 1.3, 1.3, 6.8, 1.3, 1.3, 1.3],
 ];
 
-export const MacBookProbeSection: React.FC = () => {
+interface MacBookProbeSectionProps {
+  onExploreMethodology?: () => void;
+}
+
+export const MacBookProbeSection: React.FC<MacBookProbeSectionProps> = ({
+  onExploreMethodology,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   // Probe Question Interactive State
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -124,7 +138,7 @@ export const MacBookProbeSection: React.FC = () => {
   const textFilter = useTransform(textBlurN, (b) => `blur(${b}px)`);
 
   return (
-    <section className="relative min-h-[92svh] sm:min-h-screen bg-[#04050a] flex flex-col items-center justify-center px-4 py-12 sm:py-20 overflow-hidden select-none">
+    <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 w-full flex flex-col items-center select-none overflow-hidden bg-[#04050a]">
       {/* AMBIENT STUDIO LIGHTING */}
       <div className="pointer-events-none absolute inset-0 z-0">
         {/* Base wash */}
@@ -214,65 +228,67 @@ export const MacBookProbeSection: React.FC = () => {
         />
       </div>
 
-      {/* INTRO TEXT (Visible first when laptop is closed; dissolves when laptop opens) */}
-      <motion.div
-        style={{
-          opacity: textOpacity,
-          y: textY,
-          filter: textFilter,
-          pointerEvents: isOpen ? "none" : "auto",
-        }}
-        className="absolute top-[8%] sm:top-[10%] inset-x-0 z-30 flex flex-col items-center px-4 text-center"
-      >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-medium uppercase tracking-[0.25em] text-[#00E5FF] mb-3">
-          <Sparkles className="w-3 h-3 text-[#00E5FF]" />
-          <span>Interactive Diagnostic Lab</span>
-        </div>
+      {/* INTRO TEXT & CLOSE BUTTON CONTAINER */}
+      <div className="relative z-30 flex flex-col items-center px-4 text-center max-w-4xl mx-auto mb-8 sm:mb-12">
+        <motion.div
+          style={{
+            opacity: textOpacity,
+            y: textY,
+            filter: textFilter,
+            pointerEvents: isOpen ? "none" : "auto",
+          }}
+          className="flex flex-col items-center"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-medium uppercase tracking-[0.25em] text-[#00E5FF] mb-3">
+            <Sparkles className="w-3 h-3 text-[#00E5FF]" />
+            <span>Interactive Diagnostic Lab</span>
+          </div>
 
-        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.035em] text-white max-w-3xl leading-[1.1]">
-          Experience the Probe Question Live
-        </h2>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.035em] text-white max-w-3xl leading-[1.1]">
+            Experience the Probe Question Live
+          </h2>
 
-        <p className="mt-3 text-xs sm:text-sm text-white/50 max-w-md leading-relaxed">
-          Test the engine yourself. Pick an answer to see how Re:Learn differentiates a harmless slip from a deep misconception.
-        </p>
+          <p className="mt-3 text-xs sm:text-sm text-white/50 max-w-md leading-relaxed">
+            Test the engine yourself. Pick an answer to see how Re:Learn differentiates a harmless slip from a deep misconception.
+          </p>
 
-        {/* Compact, short & simple button */}
-        <div className="mt-5">
-          <button
-            onClick={handleToggle}
-            className="px-6 py-2.5 rounded-full bg-white text-black font-semibold text-xs font-mono shadow-[0_0_24px_rgba(255,255,255,0.3)] hover:shadow-[0_0_32px_rgba(0,229,255,0.5)] flex items-center gap-2 transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/80"
-          >
-            <span>Test Live</span>
-            <Sparkles className="w-3.5 h-3.5 text-[#00E5FF]" />
-          </button>
-        </div>
-      </motion.div>
-
-      {/* FLOATING CLOSE BUTTON (Smoothly appears above the open MacBook) */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.9 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute top-5 sm:top-8 z-40 flex items-center justify-center pointer-events-auto"
-          >
+          {/* Compact, short & simple button */}
+          <div className="mt-5">
             <button
               onClick={handleToggle}
-              className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/40 text-white font-mono text-xs flex items-center gap-2 shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all hover:scale-105 active:scale-95 cursor-pointer group"
+              className="px-6 py-2.5 rounded-full bg-white text-black font-semibold text-xs font-mono shadow-[0_0_24px_rgba(255,255,255,0.3)] hover:shadow-[0_0_32px_rgba(0,229,255,0.5)] flex items-center gap-2 transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/80"
             >
-              <X className="w-3.5 h-3.5 text-white/80 group-hover:rotate-90 transition-transform duration-200" />
-              <span>Close MacBook</span>
+              <span>Test Live</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#00E5FF]" />
             </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </motion.div>
+
+        {/* FLOATING CLOSE BUTTON (Smoothly appears above the open MacBook) */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.9 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute top-0 z-40 flex items-center justify-center pointer-events-auto"
+            >
+              <button
+                onClick={handleToggle}
+                className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/40 text-white font-mono text-xs flex items-center gap-2 shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-all hover:scale-105 active:scale-95 cursor-pointer group"
+              >
+                <X className="w-3.5 h-3.5 text-white/80 group-hover:rotate-90 transition-transform duration-200" />
+                <span>Close MacBook</span>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* THE MACBOOK PRO 3D APPARATUS */}
       <div
-        className="relative z-10 mt-16 sm:mt-20"
+        className="relative z-10"
         style={{
           ["--mbw" as any]: "min(78vw, calc((86svh - 6rem) / 0.775), 1140px)",
           width: "var(--mbw)",
@@ -860,6 +876,91 @@ export const MacBookProbeSection: React.FC = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* 4 Floating Icon-Led Glass Chips */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-14 sm:mt-16 w-full max-w-5xl mx-auto px-4 z-10">
+        {[
+          {
+            icon: Brain,
+            label: "Cognitive Diagnosis",
+            desc: "Deep belief vs careless slip",
+            color: "text-[#00E5FF]",
+            delay: 0,
+          },
+          {
+            icon: Cpu,
+            label: "In-Browser Sandbox",
+            desc: "100% private Pyodide WASM",
+            color: "text-emerald-400",
+            delay: 0.5,
+          },
+          {
+            icon: ShieldCheck,
+            label: "Guardrailed AI Ladder",
+            desc: "Never leaks solution code",
+            color: "text-amber-400",
+            delay: 1.0,
+          },
+          {
+            icon: RotateCw,
+            label: "Transfer Reassessment",
+            desc: "Guaranteed conceptual retention",
+            color: "text-[#3B82F6]",
+            delay: 1.5,
+          },
+        ].map((chip, idx) => {
+          const Icon = chip.icon;
+          return (
+            <motion.div
+              key={idx}
+              animate={
+                shouldReduceMotion
+                  ? {}
+                  : {
+                      y: [-3, 3, -3],
+                    }
+              }
+              transition={{
+                duration: 4.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: chip.delay,
+              }}
+            >
+              <Glass
+                tier="subtle"
+                className="p-3.5 rounded-xl border border-white/[0.08] hover:border-white/20 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className={`p-1.5 rounded-lg bg-white/5 ${chip.color}`}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-[#F4F5F7]">
+                      {chip.label}
+                    </div>
+                    <div className="text-[11px] text-[#A3A9B5]">
+                      {chip.desc}
+                    </div>
+                  </div>
+                </div>
+              </Glass>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Minimal Animated Scroll Cue */}
+      {onExploreMethodology && (
+        <button
+          onClick={onExploreMethodology}
+          aria-label="Scroll to explore methodology"
+          className="mt-12 inline-flex items-center gap-1.5 text-xs font-mono text-[#6B7280] hover:text-[#A3A9B5] transition-colors cursor-pointer group z-10"
+        >
+          <span>Explore methodology</span>
+          <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+        </button>
+      )}
     </section>
   );
 };

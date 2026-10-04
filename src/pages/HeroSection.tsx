@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Lenis from "lenis";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Eyebrow, RevealWords, FadeUp } from "../components/ui/Reveal";
 import { MagneticButton } from "../components/ui/MagneticButton";
-import { HeroProductWindow } from "../components/home/HeroProductWindow";
 import { ProblemSplit } from "../components/home/ProblemSplit";
 import { BentoFlashcards } from "../components/home/BentoFlashcards";
 import { MacBookProbeSection } from "../components/home/MacBookProbeSection";
@@ -62,7 +61,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }, []);
 
   const scrollToMethodology = useCallback(() => {
-    window.scrollTo({ top: window.innerHeight * 0.9, behavior: "smooth" });
+    const el = document.getElementById("methodology-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: window.innerHeight * 1.5, behavior: "smooth" });
+    }
   }, []);
 
   return (
@@ -153,7 +157,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
 
       {/* SECTION 1: HERO (Show, Don't Tell) */}
-      <section className="relative z-10 pt-16 sm:pt-24 pb-20 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col items-center text-center">
+      <section className="relative z-10 pt-16 sm:pt-24 pb-12 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col items-center text-center">
         <Eyebrow accent="cyan">Cognitive Lab &bull; Dark and Precise</Eyebrow>
 
         {/* Hero Headline with single gradient keyword */}
@@ -164,7 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="text-4xl sm:text-7xl lg:text-[84px] font-extrabold tracking-[-0.035em] text-[#F4F5F7] justify-center leading-[1.08] max-w-4xl"
         />
 
-        {/* Concise One-Sentence Subcopy (Reduced by 40%) */}
+        {/* Concise One-Sentence Subcopy */}
         <FadeUp delay={0.15}>
           <p className="mt-6 text-base sm:text-xl text-[#A3A9B5] max-w-2xl mx-auto leading-relaxed font-normal">
             Re:Learn uncovers the exact conceptual misconception behind your bug, proves it's gone with transfer checks, and remembers it.
@@ -192,31 +196,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </MagneticButton>
           </div>
         </FadeUp>
-
-        {/* 3D Angled Glass Product Window with Live Diagnosis Loop */}
-        <HeroProductWindow />
-
-        {/* Minimal Animated Scroll Cue */}
-        <button
-          onClick={scrollToMethodology}
-          aria-label="Scroll to explore methodology"
-          className="mt-14 inline-flex items-center gap-1.5 text-xs font-mono text-[#6B7280] hover:text-[#A3A9B5] transition-colors cursor-pointer group"
-        >
-          <span>Explore methodology</span>
-          <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
-        </button>
       </section>
 
-      {/* SECTION 2: PROBLEM STATEMENT (Before / After Split) */}
-      <ProblemSplit />
+      {/* SECTION 2: PROBE QUESTION LIVE (MacBook Pro + 4 Feature Cards + Explore Methodology) */}
+      <MacBookProbeSection onExploreMethodology={scrollToMethodology} />
 
-      {/* SECTION 3: UNDER THE HOOD (Interactive 3D Bento Flashcards) */}
+      {/* SECTION 3: PROBLEM STATEMENT (Before / After Split) */}
+      <div id="methodology-section">
+        <ProblemSplit />
+      </div>
+
+      {/* SECTION 4: UNDER THE HOOD (Interactive 3D Bento Flashcards) */}
       <BentoFlashcards />
 
-      {/* SECTION 4: LIVE PROBE DEMO (MacBook Pro Scroll & Click Reveal) */}
-      <MacBookProbeSection />
-
-      {/* SECTION 5: LEARNER JOURNEY (5-Step Scroll-Driven Storytelling) */}
+      {/* SECTION 5: LEARNER JOURNEY (5-Stage Centered Interactive Stage) */}
       <JourneySticky />
 
       {/* SECTION 6: LEARNER MODEL (Animated State Machine Mastery Graph) */}
