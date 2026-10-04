@@ -5,7 +5,6 @@ import {
   Sparkles,
   BookOpen,
   ChevronRight,
-  Flame,
   Clock,
   Award,
 } from "lucide-react";
@@ -118,7 +117,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
   const filters = [
     { id: "all", label: "All Fundamentals" },
     { id: "current", label: "Current Focus" },
-    { id: "mastered", label: "Mastered (75%+)" },
+    { id: "mastered", label: "Mastered" },
     { id: "practice", label: "Needs Practice" },
   ];
 
@@ -144,8 +143,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
         </p>
       </div>
 
-      {/* 2. Level & Progress Hero Banner */}
-      <div className="p-6 rounded-2xl bg-card border border-border shadow-lg relative overflow-hidden space-y-5">
+      {/* 2. Level Hero Banner */}
+      <div className="p-6 rounded-2xl bg-card border border-border shadow-lg relative overflow-hidden">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative z-10">
           <div className="space-y-2">
             <div className="flex items-center gap-2 font-mono text-xs text-chart-1 font-semibold uppercase tracking-wider">
@@ -155,9 +154,6 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             
             <div className="text-xl sm:text-2xl font-extrabold text-foreground flex items-center gap-3">
               <span>Level {learner.level}: {learner.levelTitle}</span>
-              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-muted text-foreground border border-border">
-                {learner.masteryPercentage}% Overall Mastery
-              </span>
             </div>
 
             <p className="text-xs text-muted-foreground max-w-xl leading-relaxed">
@@ -172,23 +168,6 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             <span>Continue Current Lesson</span>
             <ArrowRight className="w-4 h-4" />
           </button>
-        </div>
-
-        {/* Progress Bar with Milestones */}
-        <div className="space-y-2 pt-2 border-t border-border">
-          <div className="flex justify-between text-xs font-mono text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <Flame className="w-3.5 h-3.5 text-chart-1" />
-              Progress to Level {learner.level + 1}
-            </span>
-            <span className="text-foreground font-bold">{learner.masteryProgressToNextLevel}%</span>
-          </div>
-          <div className="w-full bg-muted h-2.5 rounded-full overflow-hidden border border-border">
-            <div
-              className="bg-primary h-full rounded-full transition-all duration-500"
-              style={{ width: `${learner.masteryProgressToNextLevel}%` }}
-            />
-          </div>
         </div>
       </div>
 
@@ -286,28 +265,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                   </p>
                 </div>
 
-                {/* Progress & Action Bottom Row */}
-                <div className="space-y-2.5 pt-2 border-t border-border">
-                  <div className="flex items-center justify-between text-[11px] font-mono">
-                    <span className="text-muted-foreground">Mastery</span>
-                    <span className="text-foreground font-bold">{fund.mastery}%</span>
-                  </div>
-
-                  {/* Progress Indicator */}
-                  <div className="w-full bg-muted h-1.5 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${
-                        fund.mastery >= 75
-                          ? "bg-emerald-500"
-                          : fund.mastery >= 50
-                          ? "bg-chart-2"
-                          : "bg-chart-1"
-                      }`}
-                      style={{ width: `${fund.mastery}%` }}
-                    />
-                  </div>
-
-                  {/* Card Button */}
+                {/* Card Button */}
+                <div className="pt-2 border-t border-border">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
