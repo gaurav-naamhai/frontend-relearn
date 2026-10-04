@@ -12,7 +12,7 @@ import { ProfileSection } from "./pages/ProfileSection";
 import { SettingsSection } from "./pages/SettingsSection";
 
 export default function App() {
-  const [currentPath, setCurrentPath] = useState<string>("/dashboard");
+  const [currentPath, setCurrentPath] = useState<string>("/");
   const [learner, setLearner] = useState<LearnerProfile>(learnerService.getCurrentLearner());
 
   const refreshState = () => {
@@ -42,7 +42,7 @@ export default function App() {
       />
 
       {/* Main Content Viewport */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1">
         {currentPath === "/" && (
           <HeroSection
             onStartLearning={() => handleNavigate("/learn")}
