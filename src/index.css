@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
+@import "@vscode/codicons/dist/codicon.css";
+@import "./components/workbench/styles/workbench.css";
 
 :root {
   --card: oklch(1.00 0 0);
