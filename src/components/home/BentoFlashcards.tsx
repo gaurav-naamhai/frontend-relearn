@@ -2,16 +2,10 @@ import React, { useState, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   RotateCw,
-  Brain,
-  ShieldCheck,
   RotateCcw,
-  Cpu,
   ArrowRight,
   CheckCircle2,
-  AlertCircle,
-  HelpCircle,
 } from "lucide-react";
-import { Glass } from "../ui/Glass";
 import { Eyebrow, RevealWords, FadeUp } from "../ui/Reveal";
 
 interface CardSpec {
@@ -26,7 +20,6 @@ interface CardSpec {
   backTitle: string;
   backBullets: string[];
   takeaway: string;
-  isTall?: boolean;
 }
 
 export const BentoFlashcards: React.FC = () => {
@@ -54,7 +47,6 @@ export const BentoFlashcards: React.FC = () => {
       category: "DISAMBIGUATION",
       accentColor: "#00E5FF",
       glowColor: "rgba(0, 229, 255, 0.2)",
-      isTall: true,
       frontVisual: (
         <div className="p-3.5 rounded-xl bg-black/60 border border-white/10 font-mono text-xs space-y-1 my-3">
           <div className="text-[#6B7280]"># Did learner forget return or misunderstand print?</div>
@@ -153,11 +145,11 @@ export const BentoFlashcards: React.FC = () => {
   ];
 
   return (
-    <section className="relative z-10 py-28 sm:py-36 px-4 sm:px-6 max-w-6xl mx-auto w-full">
+    <section className="relative z-10 py-28 sm:py-36 px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto w-full">
       {/* Background aurora pool behind cards */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-[#00E5FF]/10 via-[#3B82F6]/5 to-[#10B981]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] max-w-full h-[500px] bg-gradient-to-tr from-[#00E5FF]/10 via-[#3B82F6]/5 to-[#10B981]/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
         <div>
           <Eyebrow accent="cyan">Under the Hood</Eyebrow>
           <RevealWords
@@ -174,20 +166,17 @@ export const BentoFlashcards: React.FC = () => {
 
         <button
           onClick={flipAllCards}
-          className="self-start md:self-auto px-4 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-[#F4F5F7] flex items-center gap-2 transition-all cursor-pointer shadow-sm hover:border-[#00E5FF]/40"
+          className="self-start sm:self-auto shrink-0 px-4 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-[#F4F5F7] flex items-center gap-2 transition-all cursor-pointer shadow-sm hover:border-[#00E5FF]/40"
         >
           <RotateCw className="w-3.5 h-3.5 text-[#00E5FF]" />
           <span>Flip All Cards</span>
         </button>
       </div>
 
-      {/* 2x2 Bento Grid with Asymmetric Height */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      {/* 2x2 Clean Responsive Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         {cards.map((card) => {
           const isFlipped = !!flippedMap[card.id];
-          const colSpan = card.isTall
-            ? "md:col-span-6 md:row-span-2"
-            : "md:col-span-6";
 
           return (
             <div
@@ -202,7 +191,7 @@ export const BentoFlashcards: React.FC = () => {
                 }
               }}
               onClick={() => toggleFlip(card.id)}
-              className={`h-[360px] cursor-pointer [perspective:1400px] select-none outline-none focus-visible:ring-2 focus-visible:ring-[#00E5FF] rounded-2xl ${colSpan}`}
+              className="h-[380px] sm:h-[370px] cursor-pointer [perspective:1400px] select-none outline-none focus-visible:ring-2 focus-visible:ring-[#00E5FF] rounded-2xl relative"
             >
               <motion.div
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
@@ -215,13 +204,13 @@ export const BentoFlashcards: React.FC = () => {
               >
                 {/* FRONT FACE */}
                 <div
-                  className="absolute inset-0 w-full h-full [backface-visibility:hidden] p-7 rounded-2xl glass-default border border-white/10 hover:border-white/25 flex flex-col justify-between transition-colors duration-300"
+                  className="absolute inset-0 w-full h-full [backface-visibility:hidden] p-6 sm:p-7 rounded-2xl glass-default border border-white/10 hover:border-[#00E5FF]/40 flex flex-col justify-between transition-colors duration-300"
                   style={{
                     boxShadow: `0 10px 30px -10px rgba(0,0,0,0.5)`,
                   }}
                 >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
+                  <div className="flex flex-col flex-1">
+                    <div className="flex items-center justify-between mb-3">
                       <span className="font-mono text-xs text-[#6B7280]">
                         #{card.number} &bull; {card.category}
                       </span>
@@ -237,12 +226,12 @@ export const BentoFlashcards: React.FC = () => {
 
                     {card.frontVisual}
 
-                    <p className="text-sm text-[#A3A9B5] leading-relaxed mt-3">
+                    <p className="text-sm text-[#A3A9B5] leading-relaxed mt-2">
                       {card.frontSummary}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-[#00E5FF]">
+                  <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-[#00E5FF]">
                     <span className="font-semibold">Inspect Resolution</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </div>
@@ -250,12 +239,12 @@ export const BentoFlashcards: React.FC = () => {
 
                 {/* BACK FACE */}
                 <div
-                  className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] p-7 rounded-2xl glass-elevated border border-[#00E5FF]/40 flex flex-col justify-between"
+                  className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] p-6 sm:p-7 rounded-2xl glass-elevated border border-[#00E5FF]/40 flex flex-col justify-between transition-colors duration-300"
                   style={{
                     boxShadow: `0 20px 48px -12px rgba(0,0,0,0.8), 0 0 32px -8px ${card.glowColor}`,
                   }}
                 >
-                  <div>
+                  <div className="flex flex-col flex-1">
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-mono text-xs text-[#00E5FF] font-semibold">
                         RE:LEARN MECHANISM
@@ -266,11 +255,11 @@ export const BentoFlashcards: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-3">
                       {card.backTitle}
                     </h3>
 
-                    <ul className="space-y-2.5 text-xs sm:text-sm text-[#F4F5F7]">
+                    <ul className="space-y-2 text-xs sm:text-sm text-[#F4F5F7]">
                       {card.backBullets.map((bullet, i) => (
                         <li key={i} className="flex items-start gap-2.5">
                           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
@@ -280,7 +269,7 @@ export const BentoFlashcards: React.FC = () => {
                     </ul>
                   </div>
 
-                  <div className="pt-3 border-t border-white/[0.08]">
+                  <div className="mt-auto pt-3 border-t border-white/[0.08]">
                     <div className="text-[10px] font-mono text-[#6B7280] uppercase tracking-wider mb-1">
                       Core Cognitive Principle
                     </div>
