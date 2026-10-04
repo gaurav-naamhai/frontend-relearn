@@ -1,5 +1,16 @@
-import React from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import React, { useEffect, useState, useCallback } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import Lenis from "lenis";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { Eyebrow, RevealWords, FadeUp } from "../components/ui/Reveal";
+import { MagneticButton } from "../components/ui/MagneticButton";
+import { HeroProductWindow } from "../components/home/HeroProductWindow";
+import { ProblemSplit } from "../components/home/ProblemSplit";
+import { BentoFlashcards } from "../components/home/BentoFlashcards";
+import { MacBookProbeSection } from "../components/home/MacBookProbeSection";
+import { JourneySticky } from "../components/home/JourneySticky";
+import { LearnerStateMachine } from "../components/home/LearnerStateMachine";
+import { FinalCta } from "../components/home/FinalCta";
 
 interface HeroSectionProps {
   onStartLearning: () => void;
@@ -10,59 +21,212 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onStartLearning,
   onGoToDashboard,
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+  const [mousePos, setMousePos] = useState({ x: -500, y: -500 });
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  // Initialize Lenis smooth scroll
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+
+    const lenis = new Lenis({
+      lerp: 0.09,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.5,
+      smoothWheel: true,
+    });
+
+    let frameId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      frameId = requestAnimationFrame(raf);
+    }
+    frameId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      lenis.destroy();
+    };
+  }, [shouldReduceMotion]);
+
+  // Detect touch device & pointer spotlight
+  useEffect(() => {
+    setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  const scrollToMethodology = useCallback(() => {
+    window.scrollTo({ top: window.innerHeight * 0.9, behavior: "smooth" });
+  }, []);
+
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] bg-background text-foreground flex flex-col justify-center items-center px-6 py-16">
-      <div className="max-w-4xl mx-auto text-center space-y-6">
-        {/* Subtle pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card border border-border text-xs font-mono text-muted-foreground">
-          <Sparkles className="w-3.5 h-3.5 text-chart-1" />
-          <span>Adaptive Python Programming Platform</span>
-        </div>
+    <div className="relative min-h-screen bg-[#07080B] text-[#F4F5F7] font-sans selection:bg-[#00E5FF]/25 selection:text-white overflow-x-hidden">
+      {/* SVG Filter for Liquid Glass Refraction (Progressive Enhancement) */}
+      <svg className="hidden" aria-hidden="true">
+        <filter id="liquid-glass">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.04"
+            numOctaves="2"
+            result="noise"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale="4"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
 
-        {/* Headline */}
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground leading-tight">
-          Learn programming by{" "}
-          <span className="text-chart-2">understanding your mistakes.</span>
-        </h1>
+      {/* Film Grain Texture Overlay */}
+      <div className="fixed inset-0 film-grain z-50 pointer-events-none opacity-40" />
 
-        {/* Subtitle */}
-        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Re:Learn does not just tell you that your code is wrong. It diagnoses the conceptual
-          misconception behind your mistake, explains it line by line, and verifies that you understand it.
-        </p>
+      {/* Desktop Soft Cursor Spotlight */}
+      {!isTouchDevice && (
+        <div
+          className="fixed pointer-events-none z-10 w-[700px] h-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-300 opacity-25"
+          style={{
+            left: `${mousePos.x}px`,
+            top: `${mousePos.y}px`,
+            background:
+              "radial-gradient(circle, rgba(0,229,255,0.08) 0%, rgba(59,130,246,0.03) 50%, transparent 70%)",
+          }}
+        />
+      )}
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-          <button
-            onClick={onStartLearning}
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-primary text-primary-foreground hover:opacity-90 font-semibold text-sm shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
-          >
-            <span>Start Learning</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-          <button
-            onClick={onGoToDashboard}
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-card hover:bg-muted border border-border text-foreground font-semibold text-sm transition-colors"
-          >
-            View Fundamentals Dashboard
-          </button>
-        </div>
+      {/* Slow-Drifting Aurora Mesh Gradient behind Hero only */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1400px] h-[900px] overflow-hidden pointer-events-none -z-10">
+        <motion.div
+          animate={
+            shouldReduceMotion
+              ? {}
+              : {
+                  x: ["-5%", "5%", "-5%"],
+                  y: ["-3%", "4%", "-3%"],
+                  scale: [1, 1.08, 1],
+                }
+          }
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute -top-[10%] left-[15%] w-[650px] h-[480px] bg-gradient-to-br from-[#00E5FF]/14 via-[#3B82F6]/8 to-transparent rounded-full blur-[120px] opacity-70"
+        />
 
-        {/* Minimal Process Flow Preview */}
-        <div className="pt-12 max-w-3xl mx-auto">
-          <div className="p-4 rounded-xl bg-card border border-border flex flex-wrap items-center justify-center gap-3 text-xs font-mono text-muted-foreground">
-            <span className="text-foreground">1. Problem Prompt</span>
-            <span>→</span>
-            <span className="text-foreground">2. Type Code</span>
-            <span>→</span>
-            <span className="text-chart-2 font-semibold">3. Compile & Run</span>
-            <span>→</span>
-            <span className="text-chart-1 font-semibold">4. Line-by-Line Insight</span>
-            <span>→</span>
-            <span className="text-emerald-400 font-semibold">5. Optional Practice</span>
-          </div>
-        </div>
+        <motion.div
+          animate={
+            shouldReduceMotion
+              ? {}
+              : {
+                  x: ["5%", "-6%", "5%"],
+                  y: ["4%", "-4%", "4%"],
+                  scale: [1.05, 0.95, 1.05],
+                }
+          }
+          transition={{
+            duration: 32,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-[10%] right-[15%] w-[550px] h-[440px] bg-gradient-to-bl from-[#3B82F6]/12 via-[#10B981]/6 to-transparent rounded-full blur-[130px] opacity-60"
+        />
+
+        {/* Dotted grid with radial mask behind Hero demo */}
+        <div
+          className="absolute inset-0 dotted-grid opacity-30"
+          style={{
+            maskImage:
+              "radial-gradient(ellipse 65% 55% at 50% 40%, black 20%, transparent 80%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 65% 55% at 50% 40%, black 20%, transparent 80%)",
+          }}
+        />
       </div>
+
+      {/* SECTION 1: HERO (Show, Don't Tell) */}
+      <section className="relative z-10 pt-16 sm:pt-24 pb-20 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col items-center text-center">
+        <Eyebrow accent="cyan">Cognitive Lab &bull; Dark and Precise</Eyebrow>
+
+        {/* Hero Headline with single gradient keyword */}
+        <RevealWords
+          text="Learn programming by understanding your mistakes."
+          gradientWord="mistakes."
+          as="h1"
+          className="text-4xl sm:text-7xl lg:text-[84px] font-extrabold tracking-[-0.035em] text-[#F4F5F7] justify-center leading-[1.08] max-w-4xl"
+        />
+
+        {/* Concise One-Sentence Subcopy (Reduced by 40%) */}
+        <FadeUp delay={0.15}>
+          <p className="mt-6 text-base sm:text-xl text-[#A3A9B5] max-w-2xl mx-auto leading-relaxed font-normal">
+            Re:Learn uncovers the exact conceptual misconception behind your bug, proves it's gone with transfer checks, and remembers it.
+          </p>
+        </FadeUp>
+
+        {/* Primary CTAs */}
+        <FadeUp delay={0.25}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <MagneticButton
+              variant="primary"
+              size="lg"
+              onClick={onStartLearning}
+            >
+              <span>Start Learning Sandbox</span>
+              <ArrowRight className="w-4 h-4" />
+            </MagneticButton>
+
+            <MagneticButton
+              variant="secondary"
+              size="lg"
+              onClick={onGoToDashboard}
+            >
+              <span>Explore Dashboard</span>
+            </MagneticButton>
+          </div>
+        </FadeUp>
+
+        {/* 3D Angled Glass Product Window with Live Diagnosis Loop */}
+        <HeroProductWindow />
+
+        {/* Minimal Animated Scroll Cue */}
+        <button
+          onClick={scrollToMethodology}
+          aria-label="Scroll to explore methodology"
+          className="mt-14 inline-flex items-center gap-1.5 text-xs font-mono text-[#6B7280] hover:text-[#A3A9B5] transition-colors cursor-pointer group"
+        >
+          <span>Explore methodology</span>
+          <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+        </button>
+      </section>
+
+      {/* SECTION 2: PROBLEM STATEMENT (Before / After Split) */}
+      <ProblemSplit />
+
+      {/* SECTION 3: UNDER THE HOOD (Interactive 3D Bento Flashcards) */}
+      <BentoFlashcards />
+
+      {/* SECTION 4: LIVE PROBE DEMO (MacBook Pro Scroll & Click Reveal) */}
+      <MacBookProbeSection />
+
+      {/* SECTION 5: LEARNER JOURNEY (5-Step Scroll-Driven Storytelling) */}
+      <JourneySticky />
+
+      {/* SECTION 6: LEARNER MODEL (Animated State Machine Mastery Graph) */}
+      <LearnerStateMachine />
+
+      {/* SECTION 7: FINAL CTA & MINIMAL FOOTER */}
+      <FinalCta
+        onStartLearning={onStartLearning}
+        onGoToDashboard={onGoToDashboard}
+      />
     </div>
   );
 };

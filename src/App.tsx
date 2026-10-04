@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LearnerProfile } from "./types";
 import { learnerService } from "./services/learnerService";
 import { storageService } from "./services/storageService";
@@ -12,8 +12,26 @@ import { ProfileSection } from "./pages/ProfileSection";
 import { SettingsSection } from "./pages/SettingsSection";
 
 export default function App() {
-  const [currentPath, setCurrentPath] = useState<string>("/dashboard");
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) return hash;
+      if (window.location.pathname && window.location.pathname !== "/") {
+        return window.location.pathname;
+      }
+    }
+    return "/";
+  });
   const [learner, setLearner] = useState<LearnerProfile>(learnerService.getCurrentLearner());
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const hash = window.location.hash.replace("#", "");
+      setCurrentPath(hash || window.location.pathname || "/");
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   const refreshState = () => {
     setLearner(learnerService.getCurrentLearner());
@@ -21,6 +39,9 @@ export default function App() {
 
   const handleNavigate = (path: string) => {
     setCurrentPath(path);
+    if (typeof window !== "undefined") {
+      window.history.pushState({}, "", path);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -34,15 +55,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-accent selection:text-accent-foreground flex flex-col">
-      {/* Sleek Top Navigation Bar */}
-      <Navbar
-        currentPath={currentPath}
-        onNavigate={handleNavigate}
-        learner={learner}
-      />
+      {/* Sleek Top Navigation Bar (Hidden on /learn workbench where TitleBar provides native IDE nav) */}
+      {currentPath !== "/learn" && (
+        <Navbar
+          currentPath={currentPath}
+          onNavigate={handleNavigate}
+          learner={learner}
+        />
+      )}
 
       {/* Main Content Viewport */}
-      <main className="flex-1 overflow-y-auto">
+      <main className={currentPath === "/learn" ? "h-screen w-screen overflow-hidden" : "flex-1"}>
         {currentPath === "/" && (
           <HeroSection
             onStartLearning={() => handleNavigate("/learn")}
@@ -60,6 +83,8 @@ export default function App() {
         {currentPath === "/learn" && (
           <LearningDashboard
             conceptId="functions"
+            currentPath={currentPath}
+            onNavigate={handleNavigate}
             onMoveForward={() => {
               // Advance learner mastery upon finishing lesson
               learnerService.resolveMisconception("return-vs-print");
