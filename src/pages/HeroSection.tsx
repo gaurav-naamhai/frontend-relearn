@@ -7,7 +7,7 @@ import { MagneticButton } from "../components/ui/MagneticButton";
 import { HeroProductWindow } from "../components/home/HeroProductWindow";
 import { ProblemSplit } from "../components/home/ProblemSplit";
 import { BentoFlashcards } from "../components/home/BentoFlashcards";
-import { LiveProbeTerminal } from "../components/home/LiveProbeTerminal";
+import { MacBookProbeSection } from "../components/home/MacBookProbeSection";
 import { JourneySticky } from "../components/home/JourneySticky";
 import { LearnerStateMachine } from "../components/home/LearnerStateMachine";
 import { FinalCta } from "../components/home/FinalCta";
@@ -213,8 +213,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* SECTION 3: UNDER THE HOOD (Interactive 3D Bento Flashcards) */}
       <BentoFlashcards />
 
-      {/* SECTION 4: LIVE PROBE DEMO (Signature Interactive Moment) */}
-      <LiveProbeTerminal />
+      {/* SECTION 4: LIVE PROBE DEMO (MacBook Pro Scroll & Click Reveal) */}
+      <MacBookProbeSection />
 
       {/* SECTION 5: LEARNER JOURNEY (5-Step Scroll-Driven Storytelling) */}
       <JourneySticky />
